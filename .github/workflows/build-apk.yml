@@ -5,6 +5,7 @@ on:
     branches: [main, master]
     paths:
       - 'www/**'
+      - 'android-res/**'
       - 'package.json'
       - 'capacitor.config.json'
       - '.github/workflows/build-apk.yml'
@@ -52,6 +53,9 @@ jobs:
 
       - name: Add Android platform
         run: npx cap add android
+
+      - name: Apply app icon
+        run: cp -r android-res/. android/app/src/main/res/
 
       - name: Sync web assets
         run: npx cap sync android
