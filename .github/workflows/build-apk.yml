@@ -3,7 +3,15 @@ name: Build APK
 on:
   push:
     branches: [main, master]
+    paths:
+      - 'www/**'
+      - 'package.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/build-apk.yml'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -23,6 +31,22 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Set build number
+        run: |
+          sed -i "s/var APP_BUILD=0;/var APP_BUILD=${{ github.run_number }};/" www/index.html
+          grep -q "var APP_BUILD=${{ github.run_number }};" www/index.html
+
+      - name: Restore signing key
+        env:
+          KS: ${{ secrets.DEBUG_KEYSTORE_B64 }}
+        run: |
+          if [ -z "$KS" ]; then
+            echo "::error::Secret DEBUG_KEYSTORE_B64 is missing (see README)"
+            exit 1
+          fi
+          mkdir -p ~/.android
+          echo "$KS" | base64 -d > ~/.android/debug.keystore
+
       - name: Install dependencies
         run: npm install
 
@@ -32,15 +56,27 @@ jobs:
       - name: Sync web assets
         run: npx cap sync android
 
-      - name: Build debug APK
+      - name: Build APK
         working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Prepare APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk seraj.apk
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: seraj-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: seraj.apk
           if-no-files-found: error
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "build-${{ github.run_number }}" seraj.apk \
+            --title "سراج - نسخهٔ ${{ github.run_number }}" \
+            --notes "نسخهٔ خودکار شمارهٔ ${{ github.run_number }}" \
+            --latest
