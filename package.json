@@ -2,7 +2,7 @@
   "name": "seraj-app",
   "version": "1.0.0",
   "private": true,
-  "description": "سراج | SERAJ",
+  "description": "\u0633\u0631\u0627\u062c | SERAJ",
   "scripts": {
     "sync": "cap sync android"
   },
@@ -10,6 +10,7 @@
     "@capacitor/android": "^6.2.0",
     "@capacitor/cli": "^6.2.0",
     "@capacitor/core": "^6.2.0",
-    "@capacitor/filesystem": "^6.0.0"
+    "@capacitor/filesystem": "^6.0.0",
+    "@capacitor/browser": "^6.0.0"
   }
 }

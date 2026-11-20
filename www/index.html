@@ -465,6 +465,36 @@ function renderDL(s){
   }
 }
 
+/* ===== اعلان نسخهٔ جدید (فقط اپ اندروید) =====
+   شمارهٔ build هنگام ساخت APK توسط GitHub Actions جایگزین می‌شود. */
+var APP_BUILD=0;
+var UPD_API='https://api.github.com/repos/AbolfazlHooman/seraj/releases/latest';
+function showUpdate(nb,url){
+  if(store.get('upd_skip')==String(nb)||document.getElementById('updbar'))return;
+  var d=document.createElement('div');d.id='updbar';d.setAttribute('role','alert');
+  d.style.cssText='position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:99;background:var(--hero);color:#f6f1e1;border:1.5px solid var(--gold);border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.35);max-width:496px;margin:0 auto';
+  d.innerHTML='<div style="flex:1;font-size:.9rem;line-height:1.6"><b>نسخهٔ جدید سراج آماده است</b><br><span style="opacity:.8">برای به‌روزرسانی، فایل را دانلود و نصب کنید.</span></div><button id="updgo" style="border:0;border-radius:12px;padding:8px 14px;font-weight:700;background:var(--gold);color:var(--deep);cursor:pointer">دانلود</button><button id="updno" aria-label="بستن" style="border:0;background:transparent;color:inherit;font-size:1.3rem;cursor:pointer">✕</button>';
+  document.body.appendChild(d);
+  document.getElementById('updno').onclick=function(){store.set('upd_skip',String(nb));d.remove()};
+  document.getElementById('updgo').onclick=function(){
+    var B=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Browser;
+    if(B&&B.open)B.open({url:url});else location.href=url;
+  };
+}
+function checkUpdate(){
+  if(!NATIVE||!APP_BUILD||!navigator.onLine)return;
+  var last=+store.get('upd_t')||0;if(Date.now()-last<3*3600*1000)return;
+  store.set('upd_t',String(Date.now()));
+  fetch(UPD_API,{headers:{Accept:'application/vnd.github+json'}}).then(function(r){return r.ok?r.json():null}).then(function(j){
+    if(!j)return;
+    var m=/build-(\d+)/.exec(j.tag_name||'');if(!m)return;
+    var nb=+m[1];if(nb<=APP_BUILD)return;
+    var apk=(j.assets||[]).filter(function(x){return /\.apk$/i.test(x.name)})[0];
+    showUpdate(nb,apk?apk.browser_download_url:j.html_url);
+  }).catch(function(){});
+}
+setTimeout(checkUpdate,3000);
+
 function stopSurahAudio(){if(window._saEl){try{window._saEl.pause();window._saEl.removeAttribute('src');window._saEl.load()}catch(e){}window._saEl=null}}
 function initSurahAudio(a){
   var el=$('#saa'),st=$('#sas'),s=+a;if(!el||!SN[s-1])return;
