@@ -520,7 +520,7 @@ function showUpdate(nb,url){
 }
 function checkUpdate(){
   if(!NATIVE||!APP_BUILD||!navigator.onLine)return;
-  var last=+store.get('upd_t')||0;if(Date.now()-last<3*3600*1000)return;
+  var last=+store.get('upd_t')||0;if(Date.now()-last<5*60*1000)return;
   store.set('upd_t',String(Date.now()));
   fetch(UPD_API,{headers:{Accept:'application/vnd.github+json'}}).then(function(r){return r.ok?r.json():null}).then(function(j){
     if(!j)return;
@@ -531,6 +531,7 @@ function checkUpdate(){
   }).catch(function(){});
 }
 setTimeout(checkUpdate,3000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(checkUpdate,1500)});
 
 function stopSurahAudio(){if(window._saEl){try{window._saEl.pause();window._saEl.removeAttribute('src');window._saEl.load()}catch(e){}window._saEl=null}}
 function initSurahAudio(a){
