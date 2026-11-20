@@ -415,11 +415,47 @@ var sdir=function(s){return 'seraj-audio/s'+p3(s)};
 var fmtSize=function(b){return b?fa((b/1048576).toFixed(1)).replace('.','٫')+' مگابایت':''};
 var localBase=function(s){return FS().getUri({path:sdir(s),directory:'DATA'}).then(function(r){return Capacitor.convertFileSrc(r.uri)})};
 
-function dlOne(url,path,cb){
+var DLM=0;
+var emsg=function(e){var m=(e&&(e.message||e.errorMessage))||'';if(!m){try{m=JSON.stringify(e)}catch(x){m=String(e)}}return String(m).slice(0,70)};
+function dlViaPlugin(url,path,cb,prog){
   var fs=FS();
-  return fs.addListener('progress',function(p){if(p&&p.url===url&&cb)cb(p)}).then(function(hd){
-    return fs.downloadFile({url:url,path:path,directory:'DATA',recursive:true,progress:true}).then(function(r){hd.remove();return r},function(e){hd.remove();throw e});
+  var run=function(hd){return fs.downloadFile({url:url,path:path,directory:'DATA',recursive:true,progress:!!prog}).then(function(r){if(hd)hd.remove();return r},function(e){if(hd)hd.remove();throw e})};
+  if(!prog)return run(null);
+  return fs.addListener('progress',function(p){if(p&&p.url===url&&cb)cb(p)}).then(run);
+}
+function b64(u8){var s='',i,k=0x8000;for(i=0;i<u8.length;i+=k)s+=String.fromCharCode.apply(null,u8.subarray(i,i+k));return btoa(s)}
+function dlViaFetch(url,path,cb){
+  var fs=FS(),first=true,got=0,total=0,buf=[],bl=0;
+  var flush=function(){
+    if(!bl)return Promise.resolve();
+    var all=new Uint8Array(bl),o=0;buf.forEach(function(c){all.set(c,o);o+=c.length});buf=[];bl=0;
+    var d=b64(all),p=first?fs.writeFile({path:path,directory:'DATA',data:d,recursive:true}):fs.appendFile({path:path,directory:'DATA',data:d});
+    first=false;return p;
+  };
+  return fetch(url).then(function(res){
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    total=+res.headers.get('content-length')||0;
+    var rd=res.body.getReader();
+    var pump=function(){return rd.read().then(function(r){
+      if(r.done)return flush();
+      buf.push(r.value);bl+=r.value.length;got+=r.value.length;
+      if(cb)cb({bytes:got,contentLength:total});
+      if(bl>=1048576)return flush().then(pump);
+      return pump();
+    })};
+    return pump();
   });
+}
+function dlOne(url,path,cb){
+  var ms=[function(){return dlViaPlugin(url,path,cb,true)},function(){return dlViaPlugin(url,path,cb,false)},function(){return dlViaFetch(url,path,cb)}];
+  var names=['A','B','C'],errs=[],order=[0,1,2];
+  if(DLM)order=[DLM].concat(order.filter(function(x){return x!==DLM}));
+  var attempt=function(i){
+    if(i>=order.length)return Promise.reject(new Error(errs.join(' ; ')));
+    var k=order[i];
+    return Promise.resolve().then(ms[k]).then(function(r){DLM=k;return r},function(e){errs.push(names[k]+':'+emsg(e));return attempt(i+1)});
+  };
+  return attempt(0);
 }
 function dirSize(s){
   return FS().readdir({path:sdir(s),directory:'DATA'}).then(function(r){var t=0;(r.files||[]).forEach(function(f){t+=(f.size||0)});return t}).catch(function(){return 0});
@@ -438,10 +474,11 @@ function downloadSurah(s,onProg){
     for(i=1;i<=n;i++)items.push([SA_AYAH(s,i),dir+'/a'+p3(i)+'.mp3']);
     return items.reduce(function(pr,it){return pr.then(function(){return dlOne(it[0],it[1]).then(function(){done++;onProg(done/items.length)})})},Promise.resolve()).then(function(){return 'ayah'});
   };
+  var errs=[];
   return clean()
-    .then(function(){return viaFull().catch(function(){return clean().then(function(){onProg(0);return viaAyah()})})})
+    .then(function(){return viaFull().catch(function(e){errs.push('full: '+emsg(e));return clean().then(function(){onProg(0);return viaAyah().catch(function(e2){errs.push('ayah: '+emsg(e2));throw e2})})})})
     .then(function(t){return dirSize(s).then(function(b){DL[s]={t:t,b:b};saveDL();return DL[s]})})
-    .catch(function(e){return clean().then(function(){throw e})});
+    .catch(function(e){var er=new Error(errs.join(' | ')||emsg(e));return clean().then(function(){throw er})});
 }
 
 var dlHere=function(s){var b=$('#sadl');return !!b&&+b.dataset.s===s};
@@ -449,18 +486,18 @@ function renderDL(s){
   var box=$('#sadl');if(!box||!FS()||!dlHere(s))return;
   var d=DL[s];
   if(d){
-    box.innerHTML='<div class="kv" style="margin-top:8px"><span>✅ برای پخش آفلاین ذخیره شده</span><b>'+fmtSize(d.b)+'</b></div><button class="btn sec" id="sadx" style="margin-top:8px;padding:8px 16px">حذف از دستگاه</button>';
+    box.innerHTML='<div class="kv" style="margin-top:8px;font-size:.85rem"><span>✅ ذخیره‌شده برای پخش آفلاین</span><b>'+fmtSize(d.b)+'</b></div><button id="sadx" style="margin-top:8px;padding:4px 12px;font-size:.8rem;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--mut);cursor:pointer">حذف از دستگاه</button>';
     $('#sadx').onclick=function(){
       Promise.resolve().then(function(){return FS().rmdir({path:sdir(s),directory:'DATA',recursive:true})}).catch(function(){}).then(function(){delete DL[s];saveDL();renderDL(s)});
     };
   }else{
-    box.innerHTML='<button class="btn" id="sadb" style="margin-top:8px;padding:10px 18px">⬇️ دانلود برای پخش آفلاین</button><progress id="sap" max="100" value="0" hidden style="width:100%;margin-top:8px"></progress><p class="mut" id="sam" style="margin-top:6px"></p>';
+    box.innerHTML='<button id="sadb" style="margin-top:8px;padding:4px 12px;font-size:.8rem;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--acc);cursor:pointer">⬇ ذخیرهٔ آفلاین</button><progress id="sap" max="100" value="0" hidden style="width:100%;height:6px;margin-top:8px"></progress><p class="mut" id="sam" style="margin-top:6px"></p>';
     var b=$('#sadb');
     b.onclick=function(){
       b.disabled=true;$('#sap').hidden=false;$('#sam').textContent='در حال دانلود… (تا پایان دانلود این صفحه را نبندید)';
       downloadSurah(s,function(f){if(dlHere(s)){var q=$('#sap');if(q)q.value=Math.round(f*100)}})
         .then(function(){renderDL(s)})
-        .catch(function(){if(!dlHere(s))return;var m=$('#sam'),b2=$('#sadb'),q=$('#sap');if(m)m.textContent='دانلود ناموفق بود. اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.';if(b2)b2.disabled=false;if(q)q.hidden=true});
+        .catch(function(er){if(!dlHere(s))return;var m=$('#sam'),b2=$('#sadb'),q=$('#sap');if(m){m.textContent='دانلود ناموفق بود. ';var sm=document.createElement('small');sm.dir='ltr';sm.style.cssText='display:block;margin-top:4px;word-break:break-all;opacity:.75';sm.textContent=(er&&er.message)||'';m.appendChild(sm)}if(b2)b2.disabled=false;if(q)q.hidden=true});
     };
   }
 }
