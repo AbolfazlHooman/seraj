@@ -80,6 +80,11 @@ a.card{transition:transform .2s}a.card:active{transform:scale(.97)}
 .grd{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
 select.srch{margin-top:8px}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#064E3B">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -363,7 +368,7 @@ return '<div class="page"><div class="top"><div style="width:44px">'+logo()+'</d
 lesson:function(a){var i=a===undefined||a===''?nextStep():+a;if(i<0||!LESSONS[i])return '<div class="page">'+hdr('مطالعه','home')+'<div class="note">همهٔ بخش‌ها را مطالعه کرده‌اید.</div></div>';var L=LESSONS[i],dn=ST.done.indexOf(i)>-1;return '<div class="page">'+hdr('مطالعه','home')+'<div class="card"><h3>'+PATH[i]+'</h3>'+L.t.map(function(p){return '<p class="body">'+p+'</p>'}).join('')+srcBox(L.s)+'<p style="margin-top:10px"><a class="tag" href="#'+L.l[0]+'">'+L.l[1]+'</a></p>'+(dn?'<p class="note">این بخش را قبلاً مطالعه کرده‌اید.</p>':'<button class="btn" id="fin" data-i="'+i+'">پایان مطالعه</button>')+'</div></div>'},
 assistant:function(){return '<div class="page">'+hdr('دستیار سراج','home')+'<div class="note"><b>وضعیت:</b> متصل نیست. اتصال هوش مصنوعی از طریق سرور در مرحله‌ای جداگانه انجام می‌شود و کلید API در برنامه قرار نمی‌گیرد.</div><div class="card"><h3>پس از اتصال</h3><p>پرسش دربارهٔ آیه‌ها و رویدادها، همراه با منبع؛ در نبود منبع معتبر، دستیار صریحاً اعلام می‌کند که اطلاعات کافی ندارد.</p></div></div>'},
 quran:function(){var l=ST.last;return '<div class="page">'+hdr('قرآن کریم')+'<div class="ab"><a class="tb" href="#topics">جست‌وجوی موضوعی</a><a class="tb" href="#favs">علاقه‌مندی و یادداشت</a><a class="tb" href="#hist">تاریخچه</a><a class="tb" href="#data">دادهٔ قرآن</a></div>'+(Q.ok?'':'<div class="note"><b>متن قرآن هنوز وارد نشده است.</b> سراج متن قرآن را خودش تولید نمی‌کند؛ فایل رسمی Tanzil را در بخش «دادهٔ قرآن» وارد کنید. تا آن زمان فقط فهرست سوره‌ها و نشانی آیه‌ها در دسترس است.</div>')+(l&&Q.ok?'<a class="card" href="#surah/'+l.s+'/'+l.a+'"><p class="mut">ادامهٔ مطالعه</p><h3>'+ref(l.s,l.a)+'</h3></a>':'')+'<input id="q" class="srch" type="search" placeholder="جستجوی نام یا شمارهٔ سوره" aria-label="جستجوی سوره"><div class="list" id="sl"></div><div class="note">شمار آیه‌ها بر پایهٔ شمارش کوفی؛ مکی/مدنی بر پایهٔ فهرست رایج (دربارهٔ برخی سوره‌ها اختلاف هست) و باید با فراداده Tanzil تطبیق شود.</div></div>'},
-surah:function(a,b){var s=+a;if(!SN[s-1])return '<div class="page">'+hdr('سوره','quran')+'<div class="note">سوره یافت نشد.</div></div>';var n=SA[s-1],h='<div class="page">'+hdr('سورهٔ '+SN[s-1],'quran')+'<div class="card"><div class="kv"><span>نام عربی</span><b>'+AN[s-1]+'</b></div><div class="kv"><span>شمارهٔ سوره / آیه‌ها</span><b>'+fa(s)+' / '+fa(n)+'</b></div><div class="kv"><span>نوع</span><b>'+(MED[s]?'مدنی':'مکی')+'</b></div></div><div class="card" style="margin-top:12px"><h3>🎧 تلاوت صوتی سوره</h3><p class="mut">قاری: محمد صدیق المنشاوی (ترتیل)</p><audio id="saa" controls preload="none" style="width:100%;margin-top:10px" aria-label="پخش تلاوت سوره"></audio><p class="mut" id="sas" style="margin-top:8px">برای پخش، اتصال اینترنت لازم است.</p></div>';if(!Q.ar['1:1'])return h+'<div class="note">متن قرآن وارد نشده است. <a class="tag" href="#data">وارد کردن دادهٔ Tanzil</a></div></div>';
+surah:function(a,b){var s=+a;if(!SN[s-1])return '<div class="page">'+hdr('سوره','quran')+'<div class="note">سوره یافت نشد.</div></div>';var n=SA[s-1],h='<div class="page">'+hdr('سورهٔ '+SN[s-1],'quran')+'<div class="card"><div class="kv"><span>نام عربی</span><b>'+AN[s-1]+'</b></div><div class="kv"><span>شمارهٔ سوره / آیه‌ها</span><b>'+fa(s)+' / '+fa(n)+'</b></div><div class="kv"><span>نوع</span><b>'+(MED[s]?'مدنی':'مکی')+'</b></div></div><div class="card" style="margin-top:12px"><h3>🎧 تلاوت صوتی سوره</h3><p class="mut">قاری: محمد صدیق المنشاوی (ترتیل)</p><audio id="saa" controls preload="none" style="width:100%;margin-top:10px" aria-label="پخش تلاوت سوره"></audio><p class="mut" id="sas" style="margin-top:8px">برای پخش، اتصال اینترنت لازم است.</p><div id="sadl"></div></div>';if(!Q.ar['1:1'])return h+'<div class="note">متن قرآن وارد نشده است. <a class="tag" href="#data">وارد کردن دادهٔ Tanzil</a></div></div>';
 var night=(document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark';
 h+='<div class="ab" style="margin-top:12px"><button class="tb" data-act="fs" data-d="-1" aria-label="کوچک‌کردن متن">A−</button><button class="tb" data-act="fs" data-d="1" aria-label="بزرگ‌کردن متن">A+</button><button class="tb" data-act="night" aria-pressed="'+night+'">حالت شب</button><button class="tb" data-act="tr">ترجمه: '+esc(Q.tr)+'</button></div><div class="card" id="rd" style="--rf:'+(1.1+.2*ST.rf)+'rem">';
 if(s!==1&&s!==9)h+='<div class="va" style="font-size:1.2rem">'+esc(Q.ar['1:1'])+'</div>';
@@ -396,39 +401,112 @@ return '<div class="page">'+hdr('تنظیمات','profile')+'<h3 class="sec-t">�
 
 function applyPrefs(){var h=document.documentElement,t=store.get('theme');if(t==='light'||t==='dark')h.setAttribute('data-theme',t);else h.removeAttribute('data-theme');h.style.setProperty('--fs',store.get('fs')||'100%')}
 
-/* ===== تلاوت منشاوی (ترتیل) =====
-   منبع اول: فایل کامل سوره (mp3quran)
-   منبع دوم (خودکار، در صورت خطا): پخش پیاپی آیه‌به‌آیه از everyayah */
+/* ===== تلاوت منشاوی (ترتیل) + دانلود آفلاین =====
+   پخش: فایل ذخیره‌شده در دستگاه (اگر دانلود شده) ← فایل کامل آنلاین (mp3quran) ← آیه‌به‌آیه آنلاین (everyayah)
+   دانلود: فقط در اپ اندروید (Capacitor Filesystem) */
 var p3=function(n){return ('00'+n).slice(-3)};
 var SA_FULL=function(s){return 'https://server10.mp3quran.net/minsh/'+p3(s)+'.mp3'};
 var SA_AYAH=function(s,a){return 'https://everyayah.com/data/Minshawy_Murattal_128kbps/'+p3(s)+p3(a)+'.mp3'};
+var NATIVE=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
+var FS=function(){return (NATIVE&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Filesystem)||null};
+var DL=(function(){try{return JSON.parse(store.get('dl'))||{}}catch(e){return {}}})();
+var saveDL=function(){store.set('dl',JSON.stringify(DL))};
+var sdir=function(s){return 'seraj-audio/s'+p3(s)};
+var fmtSize=function(b){return b?fa((b/1048576).toFixed(1)).replace('.','٫')+' مگابایت':''};
+var localBase=function(s){return FS().getUri({path:sdir(s),directory:'DATA'}).then(function(r){return Capacitor.convertFileSrc(r.uri)})};
+
+function dlOne(url,path,cb){
+  var fs=FS();
+  return fs.addListener('progress',function(p){if(p&&p.url===url&&cb)cb(p)}).then(function(hd){
+    return fs.downloadFile({url:url,path:path,directory:'DATA',recursive:true,progress:true}).then(function(r){hd.remove();return r},function(e){hd.remove();throw e});
+  });
+}
+function dirSize(s){
+  return FS().readdir({path:sdir(s),directory:'DATA'}).then(function(r){var t=0;(r.files||[]).forEach(function(f){t+=(f.size||0)});return t}).catch(function(){return 0});
+}
+function downloadSurah(s,onProg){
+  var fs=FS(),dir=sdir(s),n=SA[s-1];
+  var clean=function(){return Promise.resolve().then(function(){return fs.rmdir({path:dir,directory:'DATA',recursive:true})}).catch(function(){})};
+  var viaFull=function(){
+    return dlOne(SA_FULL(s),dir+'/full.mp3',function(p){if(p.contentLength>0)onProg(p.bytes/p.contentLength)}).then(function(){
+      return fs.stat({path:dir+'/full.mp3',directory:'DATA'}).then(function(st){if(!st||st.size<20000)throw new Error('small');return 'full'});
+    });
+  };
+  var viaAyah=function(){
+    var items=[],done=0,i;
+    if(s!==1&&s!==9)items.push([SA_AYAH(1,1),dir+'/a000.mp3']);
+    for(i=1;i<=n;i++)items.push([SA_AYAH(s,i),dir+'/a'+p3(i)+'.mp3']);
+    return items.reduce(function(pr,it){return pr.then(function(){return dlOne(it[0],it[1]).then(function(){done++;onProg(done/items.length)})})},Promise.resolve()).then(function(){return 'ayah'});
+  };
+  return clean()
+    .then(function(){return viaFull().catch(function(){return clean().then(function(){onProg(0);return viaAyah()})})})
+    .then(function(t){return dirSize(s).then(function(b){DL[s]={t:t,b:b};saveDL();return DL[s]})})
+    .catch(function(e){return clean().then(function(){throw e})});
+}
+
+var dlHere=function(s){var b=$('#sadl');return !!b&&+b.dataset.s===s};
+function renderDL(s){
+  var box=$('#sadl');if(!box||!FS()||!dlHere(s))return;
+  var d=DL[s];
+  if(d){
+    box.innerHTML='<div class="kv" style="margin-top:8px"><span>✅ برای پخش آفلاین ذخیره شده</span><b>'+fmtSize(d.b)+'</b></div><button class="btn sec" id="sadx" style="margin-top:8px;padding:8px 16px">حذف از دستگاه</button>';
+    $('#sadx').onclick=function(){
+      Promise.resolve().then(function(){return FS().rmdir({path:sdir(s),directory:'DATA',recursive:true})}).catch(function(){}).then(function(){delete DL[s];saveDL();renderDL(s)});
+    };
+  }else{
+    box.innerHTML='<button class="btn" id="sadb" style="margin-top:8px;padding:10px 18px">⬇️ دانلود برای پخش آفلاین</button><progress id="sap" max="100" value="0" hidden style="width:100%;margin-top:8px"></progress><p class="mut" id="sam" style="margin-top:6px"></p>';
+    var b=$('#sadb');
+    b.onclick=function(){
+      b.disabled=true;$('#sap').hidden=false;$('#sam').textContent='در حال دانلود… (تا پایان دانلود این صفحه را نبندید)';
+      downloadSurah(s,function(f){if(dlHere(s)){var q=$('#sap');if(q)q.value=Math.round(f*100)}})
+        .then(function(){renderDL(s)})
+        .catch(function(){if(!dlHere(s))return;var m=$('#sam'),b2=$('#sadb'),q=$('#sap');if(m)m.textContent='دانلود ناموفق بود. اتصال اینترنت را بررسی کنید و دوباره تلاش کنید.';if(b2)b2.disabled=false;if(q)q.hidden=true});
+    };
+  }
+}
+
 function stopSurahAudio(){if(window._saEl){try{window._saEl.pause();window._saEl.removeAttribute('src');window._saEl.load()}catch(e){}window._saEl=null}}
 function initSurahAudio(a){
   var el=$('#saa'),st=$('#sas'),s=+a;if(!el||!SN[s-1])return;
   window._saEl=el;
-  var n=SA[s-1],mode='full',list=[],idx=0,fails=0;
+  var box=$('#sadl');if(box){box.dataset.s=s;renderDL(s)}
+  var n=SA[s-1],mode='full',list=[],idx=0,fails=0,local=false;
   var say=function(m){if(st)st.textContent=m};
-  var label=function(){if(mode!=='ayah')return;var u=list[idx];say(u.k===0?'بسم‌الله الرحمن الرحیم':'آیهٔ '+fa(u.k)+' از '+fa(n))};
+  var it=function(){return list[idx]};
+  var srcOf=function(x){return (x.lu&&!x.bad)?x.lu:x.u};
+  var label=function(){if(mode!=='ayah')return;var x=it();say((x.lu&&!x.bad?'آفلاین · ':'')+(x.k===0?'بسم‌الله الرحمن الرحیم':'آیهٔ '+fa(x.k)+' از '+fa(n)))};
   var playNow=function(){var p=el.play();if(p&&p.catch)p.catch(function(){})};
-  var toAyah=function(){
-    mode='ayah';list=[];idx=0;fails=0;
-    if(s!==1&&s!==9)list.push({k:0,u:SA_AYAH(1,1)});
-    for(var i=1;i<=n;i++)list.push({k:i,u:SA_AYAH(s,i)});
-    el.src=list[0].u;label();playNow();
+  var toAyah=function(base,autoplay){
+    mode='ayah';list=[];idx=0;fails=0;local=false;
+    if(s!==1&&s!==9)list.push({k:0,u:SA_AYAH(1,1),lu:base?base+'/a000.mp3':null});
+    for(var i=1;i<=n;i++)list.push({k:i,u:SA_AYAH(s,i),lu:base?base+'/a'+p3(i)+'.mp3':null});
+    el.src=srcOf(list[0]);label();if(autoplay)playNow();
   };
   el.addEventListener('error',function(){
-    if(mode==='full'){toAyah();return}
+    if(mode==='full'){
+      if(local){local=false;el.src=SA_FULL(s);say('فایل ذخیره‌شده خوانده نشد؛ پخش آنلاین…');playNow();return}
+      toAyah(null,true);return;
+    }
+    var x=it();
+    if(x.lu&&!x.bad){x.bad=true;el.src=x.u;playNow();return}
     if(fails<2){fails++;var u=el.src;el.src='';el.src=u;playNow();return}
     say('خطا در اتصال به اینترنت. لطفاً اتصال را بررسی کنید و دوباره تلاش کنید.');
   });
-  el.addEventListener('playing',function(){fails=0;if(mode==='ayah')label();else say('در حال پخش…')});
+  el.addEventListener('playing',function(){fails=0;if(mode==='ayah')label();else say(local?'در حال پخش (آفلاین)…':'در حال پخش…')});
   el.addEventListener('ended',function(){
     if(mode!=='ayah'){say('پایان تلاوت سوره');return}
     idx++;
-    if(idx<list.length){el.src=list[idx].u;label();playNow()}
-    else{idx=0;el.src=list[0].u;say('پایان تلاوت سوره')}
+    if(idx<list.length){el.src=srcOf(it());label();playNow()}
+    else{idx=0;el.src=srcOf(list[0]);say('پایان تلاوت سوره')}
   });
-  el.src=SA_FULL(s);
+  var d=FS()&&DL[s];
+  if(d){
+    localBase(s).then(function(b){
+      if(window._saEl!==el)return;
+      if(d.t==='full'){local=true;el.src=b+'/full.mp3';say('ذخیره‌شده در دستگاه؛ آمادهٔ پخش آفلاین')}
+      else toAyah(b,false);
+    }).catch(function(){if(window._saEl===el)el.src=SA_FULL(s)});
+  }else el.src=SA_FULL(s);
   if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:'سورهٔ '+SN[s-1],artist:'محمد صدیق المنشاوی',album:'سراج'})}catch(e){}}
 }
 function route(){stopSurahAudio();window.onscroll=null;var p=(location.hash||'#splash').slice(1).split('/'),r=p[0],a=p[1];if(!pages[r]){r='splash';a=undefined}
@@ -1209,6 +1287,9 @@ window.__S7={vet:vet,parse:parse,local:local,find:find,verse:verse,send:send,too
 })();
 
 addEventListener('hashchange',route);applyPrefs();initQ();route();
+</script>
+<script>
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform())){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 </script>
 </body>
 </html>
