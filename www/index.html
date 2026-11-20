@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="سراج | SERAJ: برنامهٔ آموزشی فارسی برای آشنایی منبع‌دار با قرآن و تاریخ اسلام">
+<meta name="theme-color" content="#064E3B">
 <title>سراج | SERAJ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&family=Amiri+Quran&display=swap">
 <style>
@@ -80,6 +82,47 @@ a.card{transition:transform .2s}a.card:active{transform:scale(.97)}
 .grd{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
 select.srch{margin-top:8px}
 </style>
+<style id="s8">
+:root{--goldtx:#7A5A14;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--goldtx:#D4AF65;color-scheme:dark}}
+:root[data-theme="dark"]{--goldtx:#D4AF65;color-scheme:dark}
+.vr .vn{color:var(--goldtx);border-color:var(--goldtx)}
+[lang=ar]{color:var(--goldtx)!important}
+.btn.sec{color:var(--goldtx);border-color:var(--goldtx)}
+.hero .btn.sec,.tour .btn.sec{color:var(--gold);border-color:var(--gold)}
+.splash .en{color:var(--goldtx)}
+.ib{width:44px;height:44px}
+.btn{min-height:44px;justify-content:center}
+.tb{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:4px 14px}
+.opt{min-height:48px}
+.seg button,.sg button{min-height:44px}
+.srch{min-height:46px}
+.mk,.ft a,.cl a,.card p a,.note a{color:var(--goldtx);text-decoration:underline;text-underline-offset:3px}
+.cr{font-weight:700;color:var(--acc)}
+.ft{margin:28px 0 8px;padding-top:14px;border-top:1px solid var(--line);text-align:center;font-size:.82rem}
+.ft p{margin:4px 0}
+.cl{margin:6px 0 10px;padding-inline-start:20px}.cl li{margin:5px 0}
+details.card summary{cursor:pointer;min-height:32px}
+.boot{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--mut)}
+.boot svg{width:84px;height:84px}
+.spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#toast{position:fixed;inset-inline:16px;bottom:calc(96px + env(safe-area-inset-bottom,0px));margin:0 auto;max-width:440px;background:var(--deep);color:#f6f1e1;border:1px solid var(--gold);border-radius:16px;padding:12px 16px;font-size:.9rem;z-index:60;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .25s,transform .25s}
+#toast.on{opacity:1;transform:none}
+.tour{position:fixed;inset:0;z-index:70;background:rgba(2,31,26,.82);display:grid;place-items:center;padding:20px}
+.tbox{background:var(--card);color:var(--tx);border:1px solid var(--gold);border-radius:24px;padding:22px;max-width:420px;width:100%;box-shadow:var(--sh)}
+.tbox h3{font-size:1.2rem;margin:4px 0 8px}
+.tbox .btn{margin-top:10px}
+.tbox .btn.sec{color:var(--goldtx);border-color:var(--goldtx)}
+.dis,.note.dis{border-inline-start:4px solid var(--bad)}
+@media (min-width:700px){#app{max-width:640px}.nav div{max-width:616px}}
+.kv b{min-width:0;overflow-wrap:anywhere;text-align:end}.mk{overflow-wrap:anywhere}
+.ft a.tb{color:var(--tx);text-decoration:none}
+.hero>svg{width:92px;height:92px;display:block;margin:0 auto 6px}
+.hc{position:static!important;bottom:auto!important}
+.hc>.row{position:sticky;bottom:calc(92px + env(safe-area-inset-bottom,0px));background:var(--bg);padding:8px 0;z-index:2}
+
+</style>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#064E3B">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -98,14 +141,18 @@ select.srch{margin-top:8px}
 <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
 <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
 </defs></svg>
-<div id="app"></div>
+<div id="app" role="main"><div class="boot" role="status"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#logo"/></svg><div class="spin"></div><p>در حال آماده‌سازی سراج…</p></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px;text-align:center">برای اجرای سراج، جاوااسکریپت باید فعال باشد.</p></noscript>
 <nav class="nav" id="nav" hidden><div></div></nav>
 <script>
 var $=function(s){return document.querySelector(s)};
 var ic=function(n){return '<svg><use href="#i-'+n+'"/></svg>'};
 var logo=function(c){return '<svg class="'+(c||'')+'" viewBox="0 0 100 100" role="img" aria-label="نشان سراج"><use href="#logo"/></svg>'};
+/* پرچم ویژگی‌ها: اتصال هوش مصنوعی (window.claude) فعلاً غیرفعال است و در برنامهٔ توسعهٔ آینده قرار دارد */
+var SERAJ_FLAGS={aiBridge:false};
 var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-var SAMPLE='<span class="tag">آزمایشی</span>', SOON='<span class="tag">مرحلهٔ ۳</span>';
+var SOON='<span class="tag">در برنامهٔ توسعه</span>';
 var hdr=function(t,back){return '<div class="top">'+(back?'<a class="ib" href="#'+back+'" aria-label="بازگشت">'+ic('back')+'</a>':'')+'<h2>'+t+'</h2></div>'};
 var item=function(n,t,d,tag,href){return '<'+(href?'a href="#'+href+'"':'div')+' class="card row"><div class="num">'+n+'</div><div><h3>'+t+'</h3><p>'+d+'</p></div>'+(tag||'')+'</'+(href?'a':'div')+'>'};
 var NAV=[['home','خانه','home'],['quran','قرآن','book'],['history','تاریخ','clock'],['quiz','مسابقه','cup'],['profile','پروفایل','user']];
@@ -143,7 +190,7 @@ var ref=function(s,a){return 'سورهٔ '+SN[s-1]+'، آیهٔ '+fa(a)};
 ST.fav=ST.fav||{};ST.notes=ST.notes||{};ST.hist=ST.hist||[];if(ST.rf===undefined)ST.rf=2;
 function hist(s,a){var h=ST.hist,l=h[0];if(l&&l.s===s&&l.a===a)return;h.unshift({s:s,a:a,ts:Date.now()});ST.hist=h.slice(0,60);save()}
 function vline(k){var p=k.split(':'),s=+p[0],a=+p[1];return '<a class="card" href="#ayah/'+s+'/'+a+'" style="margin-bottom:10px"><h3>'+ref(s,a)+'</h3>'+(AR(k)?'<div class="va" style="font-size:1.3rem;margin:4px 0">'+esc(AR(k))+'</div>'+(Q.fa[k]?'<p>'+esc(Q.fa[k])+'</p>':''):'<p class="mut">متن پس از وارد کردن دادهٔ معتبر نمایش داده می‌شود.</p>')+'</a>'}
-function shareText(s,a){var k=s+':'+a,t=AR(k)?AR(k)+'\n'+(Q.fa[k]||'')+'\n':'';return t+'— '+ref(s,a)+(Q.fa[k]?'\nترجمه: '+Q.tr:'')+'\nمنبع متن: Tanzil.net (CC BY 3.0) | سراج'}
+function shareText(s,a){var k=s+':'+a,t=AR(k)?AR(k)+'\n'+(Q.fa[k]||'')+'\n':'';return t+'— '+ref(s,a)+(Q.fa[k]?'\nترجمه: '+Q.tr:'')+'\nمتن عربی: Tanzil.net (CC BY 3.0) | سراج'}
 
 /* ---------- داده: پیامبران ---------- */
 var PROPHETS=[
@@ -241,8 +288,6 @@ else h+='<div class="list" style="margin:0">'+q[1].map(function(o,i){return '<bu
 $('#ch').innerHTML=h;
 $('#ch').querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',function(){var i=+b.dataset.i;if(i===q[2]){c.ok=true;c.p=c.w.length?5:10;ST.score+=c.p;log('پاسخ به چالش روز')}else c.w.push(i);ST.ch=c;save();chRender();var sc=$('#sc');if(sc)sc.textContent=fa(ST.score)})})}
 hooks.home=chRender;
-hooks.prophet=function(a){if(PROPHETS[a])log('مطالعهٔ داستان '+PROPHETS[a][0])};
-hooks.imam=function(a){if(IMAMS[a])log('مطالعهٔ زندگی‌نامهٔ '+IMAMS[a][0])};
 hooks.surah=function(a,b){var s=+a;if(!SN[s-1])return;log('مطالعهٔ سورهٔ '+SN[s-1]);window.onscroll=null;if(!Q.ar['1:1'])return;var t=0;if(+b>0&&$('#v'+(+b))){$('#v'+(+b)).scrollIntoView();$('#v'+(+b)).style.background='rgba(212,175,101,.2)'}hist(s,+b||1);window.onscroll=function(){if(t)return;t=setTimeout(function(){t=0;var v=document.querySelectorAll('.vr'),i;for(i=0;i<v.length;i++)if(v[i].getBoundingClientRect().top>=60){ST.last={s:s,a:+v[i].dataset.a};save();break}},300)}};
 hooks.ayah=function(a,b){var s=+a,i=+b;if(!SN[s-1]||!(i>=1&&i<=SA[s-1]))return;hist(s,i);var n=$('#ns');n.addEventListener('click',function(){var v=$('#nt').value.trim();if(v)ST.notes[n.dataset.k]=v;else delete ST.notes[n.dataset.k];save();n.textContent='ذخیره شد'})};
 hooks.hist=function(){var b=$('#hc');if(b)b.addEventListener('click',function(){ST.hist=[];save();route()})};
@@ -254,12 +299,7 @@ else if(act==='fs'){ST.rf=Math.max(0,Math.min(4,ST.rf+(+b.dataset.d)));save();if
 else if(act==='tr'){store.set('tr',Q.sel==='mk'?'gh':'mk');var y=window.scrollY;initQ();route();window.scrollTo(0,y)}else if(act==='night'){var cur=b.getAttribute('aria-pressed')==='true';store.set('theme',cur?'light':'dark');applyPrefs();b.setAttribute('aria-pressed',!cur)}});
 hooks.quran=function(){var inp=$("#q"),box=$("#sl");if(!inp)return;var draw=function(){var t=norm(inp.value.trim());box.innerHTML=SN.map(function(n,i){return i}).filter(function(i){return !t||norm(SN[i]).indexOf(t)>-1||AN[i].indexOf(inp.value.trim())>-1||String(i+1)===t||fa(i+1)===t}).map(function(i){return item(fa(i+1),"سورهٔ "+SN[i]+" <span lang=ar style=\"color:var(--gold)\">"+AN[i]+"</span>",fa(SA[i])+" آیه · "+(MED[i+1]?"مدنی":"مکی"),"","surah/"+(i+1))}).join("")};inp.addEventListener("input",draw);draw()};
 hooks.lesson=function(a){var b=$('#fin');if(b)b.addEventListener('click',function(){var i=+b.dataset.i;if(ST.done.indexOf(i)<0)ST.done.push(i);log('مطالعهٔ «'+PATH[i]+'»');save();location.hash='#home'})};
-hooks.profile=function(){$('#rst').addEventListener('click',function(){if(confirm('امتیاز، پیشرفت و فعالیت‌ها پاک شود؟')){ST={score:0,done:[],qb:{}};save();route()}})};
-var QS=null;
-function qrender(){var C=QB[QS.c],box=$('#qz');if(QS.i>=C.q.length){var pts=Math.max(0,QS.s-(ST.qb[QS.c]||0))*2;if(pts){ST.score+=pts;ST.qb[QS.c]=QS.s}save();log('مسابقهٔ «'+C.n+'»');box.innerHTML='<div class="card" style="text-align:center"><div class="ic" style="margin:0 auto 8px">'+ic('cup')+'</div><h3>'+fa(QS.s)+' از '+fa(C.q.length)+'</h3><p>'+(pts?fa(pts)+' امتیاز تازه گرفتید.':'امتیاز تازه‌ای افزوده نشد؛ امتیاز فقط برای بهبود بهترین نتیجه ثبت می‌شود.')+'</p><a class="btn" href="#quizrun/'+QS.c+'">تلاش دوباره</a> <a class="btn sec" href="#quiz">دسته‌ها</a></div>';return}
-var x=C.q[QS.i];box.innerHTML='<div class="bar"><i style="width:'+Math.round(QS.i/C.q.length*100)+'%"></i></div><div class="card"><p class="mut">پرسش '+fa(QS.i+1)+' از '+fa(C.q.length)+'</p><h3 style="margin:6px 0 12px">'+x[0]+'</h3><div class="list" style="margin:0">'+x[1].map(function(o,i){return '<button class="opt" data-i="'+i+'">'+o+'</button>'}).join('')+'</div><div id="fb"></div></div>';
-box.querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',function(){var i=+b.dataset.i,ok=i===x[2];if(ok)QS.s++;box.querySelectorAll('.opt').forEach(function(o,k){o.disabled=true;if(k===x[2])o.classList.add('ok');else if(k===i)o.classList.add('bad')});$('#fb').innerHTML='<p class="note">'+(ok?'درست بود. ':'نادرست بود. ')+x[3]+'</p><button class="btn" id="nx">'+(QS.i+1>=C.q.length?'نتیجه':'پرسش بعد')+'</button>';$('#nx').addEventListener('click',function(){QS.i++;qrender()})})})}
-hooks.quizrun=function(a){var c=+a;if(!QB[c])return;QS={c:c,i:0,s:0};qrender()};
+hooks.profile=function(){$('#rst').addEventListener('click',function(){if(confirm('امتیاز، پیشرفت و فعالیت‌ها پاک شود؟')){SERAJ.resetProgress();route()}})};
 
 
 /* ---------- داده: تاریخ تعاملی (مرحلهٔ ۴) ---------- */
@@ -357,17 +397,16 @@ $('#tfx').addEventListener('click',function(){if(confirm('همهٔ تفسیره�
 var pages={
 splash:function(){return '<div class="splash page">'+logo('glow')+'<h1>سراج</h1><div class="en">SERAJ</div><p class="note" style="background:none">چراغی برای شناخت قرآن و تاریخ اسلام</p><a class="btn" href="#'+(store.get('seen')?'home':'welcome')+'">ورود</a></div>'},
 welcome:function(){return '<div class="welcome page">'+logo()+'<h1 style="font-size:1.6rem;font-weight:800">به سراج خوش آمدید</h1><p style="color:var(--mut);max-width:340px">قرآن، داستان پیامبران، سیرهٔ اهل‌بیت و تاریخ اسلام، در یک مسیر منظم و منبع‌دار.</p><div class="list" style="width:100%;text-align:right">'+item('۱','محتوای منبع‌دار','هر مطلب با منبع مشخص می‌شود.')+item('۲','بدون نیاز به اینترنت','متن‌های آموزشی بدون هوش مصنوعی هم در دسترس‌اند.')+item('۳','یادگیری با مسابقه','آموخته‌ها را با پرسش‌های دسته‌بندی‌شده بسنجید.')+'</div><a class="btn" id="go" href="#home">شروع یادگیری</a></div>'},
-home:function(){var h=new Date().getHours(),g=h<12?'صبح بخیر':h<17?'ظهر بخیر':h<20?'عصر بخیر':'شب بخیر',d=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date()),v=pick(VERSES),nx=nextStep(),pc=Math.round(ST.done.length/PATH.length*100),fi=DAY%IMAMS.length,fg=IMAMS[fi],ev=pick(ALLEV),ti=DAY%PATH.length;
+home:function(){var h=new Date().getHours(),g=h<12?'صبح بخیر':h<17?'ظهر بخیر':h<20?'عصر بخیر':'شب بخیر',d=(function(){var o={};new Intl.DateTimeFormat('fa-IR-u-ca-persian',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});return [o.weekday,o.day,o.month,o.year].join(' ')})(),v=pick(VERSES),nx=nextStep(),pc=Math.round(ST.done.length/PATH.length*100),fi=DAY%IMAMS.length,fg=IMAMS[fi],ev=pick(ALLEV),ti=DAY%PATH.length;
 return '<div class="page"><div class="top"><div style="width:44px">'+logo()+'</div><h2>سراج <small style="color:var(--gold);letter-spacing:.3em;font-size:.7rem">SERAJ</small></h2><a class="ib" href="#prefs" aria-label="تنظیمات">'+ic('gear')+'</a></div>'+
 '<div class="hero"><p>'+g+'، به سراج خوش آمدید</p><h1>'+d+'</h1><p>امتیاز شما: <b id="sc">'+fa(ST.score)+'</b><br>'+(ST.act?'آخرین فعالیت: '+ST.act.t+' ('+when(ST.act.ts)+')':'هنوز فعالیتی ثبت نشده است.')+'</p></div>'+
 '<div class="card"><h3>آیهٔ روز</h3>'+(AR(v.k+':'+v.n)?'<div class="va">'+esc(AR(v.k+':'+v.n))+'</div>'+(Q.fa[v.k+':'+v.n]?'<p>'+esc(Q.fa[v.k+':'+v.n])+'</p>':''):'')+'<p class="mut">'+ref(v.k,v.n)+(Q.ok?'':' (متن پس از وارد کردن دادهٔ Tanzil نمایش داده می‌شود)')+'</p><a class="btn" href="#ayah/'+v.k+'/'+v.n+'">مشاهده و توضیح</a></div>'+
-'<h3 class="sec-t">ادامهٔ مسیر یادگیری</h3><div class="card">'+(nx<0?'<h3>مسیر یادگیری کامل شد</h3><p>درس‌های بیشتر در مرحله‌های بعد افزوده می‌شود.</p>':'<p class="mut">بخش بعدی</p><h3>'+PATH[nx]+'</h3><div class="bar"><i style="width:'+pc+'%"></i></div><p class="mut">پیشرفت: '+fa(pc)+'٪ ('+fa(ST.done.length)+' از '+fa(PATH.length)+')</p><a class="btn" href="#lesson/'+nx+'">ادامه مطالعه</a>')+'</div>'+
+'<h3 class="sec-t">ادامهٔ مسیر یادگیری</h3><div class="card">'+(nx<0?'<h3>مسیر یادگیری کامل شد</h3><p>درس‌های بیشتر در نسخه‌های بعد افزوده خواهد شد.</p>':'<p class="mut">بخش بعدی</p><h3>'+PATH[nx]+'</h3><div class="bar"><i style="width:'+pc+'%"></i></div><p class="mut">پیشرفت: '+fa(pc)+'٪ ('+fa(ST.done.length)+' از '+fa(PATH.length)+')</p><a class="btn" href="#lesson/'+nx+'">ادامه مطالعه</a>')+'</div>'+
 '<h3 class="sec-t">دسترسی سریع</h3><div class="g3">'+[['quran','book','قرآن'],['history','clock','سفر در تاریخ'],['prophets','star','پیامبران'],['imams','user','۱۴ معصوم'],['quiz','cup','مسابقه دانایی'],['assistant','gear','دستیار سراج']].map(function(q){return '<a class="card qa" href="#'+q[0]+'"><div class="ic">'+ic(q[1])+'</div><h3>'+q[2]+'</h3></a>'}).join('')+'</div>'+
 '<div class="card" id="ch" style="margin-top:18px"></div>'+
-'<h3 class="sec-t">محتوای پیشنهادی</h3><div class="list"><a class="card" href="#imam/'+fi+'"><p class="mut">شخصیت روز</p><h3>'+fg[0]+'</h3><p>'+fg[1]+'</p></a><a class="card" href="#era/'+ev[1]+'"><p class="mut">رویداد روز</p><h3>'+ev[0][0]+'</h3><p>'+ev[0][1]+'</p></a><div class="card"><p class="mut">حدیث مستند '+SOON+'</p><p>حدیثی بدون منبع و درجهٔ اعتبار نمایش داده نمی‌شود؛ پایگاه احادیث در مرحلهٔ ۳ متصل می‌شود.</p></div><a class="card" href="#lesson/'+ti+'"><p class="mut">موضوع منتخب</p><h3>'+PATH[ti]+'</h3></a></div></div>'},
+'<h3 class="sec-t">محتوای پیشنهادی</h3><div class="list"><a class="card" href="#imam/'+fi+'"><p class="mut">شخصیت روز</p><h3>'+fg[0]+'</h3><p>'+fg[1]+'</p></a><a class="card" href="#era/'+ev[1]+'"><p class="mut">رویداد روز</p><h3>'+ev[0][0]+'</h3><p>'+ev[0][1]+'</p></a><div class="card"><p class="mut">حدیث مستند '+SOON+'</p><p>حدیثی بدون منبع و درجهٔ اعتبار نمایش داده نمی‌شود؛ پایگاه احادیث در برنامهٔ توسعهٔ آینده است و هنوز فعال نیست.</p></div><a class="card" href="#lesson/'+ti+'"><p class="mut">موضوع منتخب</p><h3>'+PATH[ti]+'</h3></a></div></div>'},
 lesson:function(a){var i=a===undefined||a===''?nextStep():+a;if(i<0||!LESSONS[i])return '<div class="page">'+hdr('مطالعه','home')+'<div class="note">همهٔ بخش‌ها را مطالعه کرده‌اید.</div></div>';var L=LESSONS[i],dn=ST.done.indexOf(i)>-1;return '<div class="page">'+hdr('مطالعه','home')+'<div class="card"><h3>'+PATH[i]+'</h3>'+L.t.map(function(p){return '<p class="body">'+p+'</p>'}).join('')+srcBox(L.s)+'<p style="margin-top:10px"><a class="tag" href="#'+L.l[0]+'">'+L.l[1]+'</a></p>'+(dn?'<p class="note">این بخش را قبلاً مطالعه کرده‌اید.</p>':'<button class="btn" id="fin" data-i="'+i+'">پایان مطالعه</button>')+'</div></div>'},
-assistant:function(){return '<div class="page">'+hdr('دستیار سراج','home')+'<div class="note"><b>وضعیت:</b> متصل نیست. اتصال هوش مصنوعی از طریق سرور در مرحله‌ای جداگانه انجام می‌شود و کلید API در برنامه قرار نمی‌گیرد.</div><div class="card"><h3>پس از اتصال</h3><p>پرسش دربارهٔ آیه‌ها و رویدادها، همراه با منبع؛ در نبود منبع معتبر، دستیار صریحاً اعلام می‌کند که اطلاعات کافی ندارد.</p></div></div>'},
-quran:function(){var l=ST.last;return '<div class="page">'+hdr('قرآن کریم')+'<div class="ab"><a class="tb" href="#topics">جست‌وجوی موضوعی</a><a class="tb" href="#favs">علاقه‌مندی و یادداشت</a><a class="tb" href="#hist">تاریخچه</a><a class="tb" href="#data">دادهٔ قرآن</a></div>'+(Q.ok?'':'<div class="note"><b>متن قرآن هنوز وارد نشده است.</b> سراج متن قرآن را خودش تولید نمی‌کند؛ فایل رسمی Tanzil را در بخش «دادهٔ قرآن» وارد کنید. تا آن زمان فقط فهرست سوره‌ها و نشانی آیه‌ها در دسترس است.</div>')+(l&&Q.ok?'<a class="card" href="#surah/'+l.s+'/'+l.a+'"><p class="mut">ادامهٔ مطالعه</p><h3>'+ref(l.s,l.a)+'</h3></a>':'')+'<input id="q" class="srch" type="search" placeholder="جستجوی نام یا شمارهٔ سوره" aria-label="جستجوی سوره"><div class="list" id="sl"></div><div class="note">شمار آیه‌ها بر پایهٔ شمارش کوفی؛ مکی/مدنی بر پایهٔ فهرست رایج (دربارهٔ برخی سوره‌ها اختلاف هست) و باید با فراداده Tanzil تطبیق شود.</div></div>'},
+quran:function(){var l=ST.last;return '<div class="page">'+hdr('قرآن کریم')+'<div class="ab"><a class="tb" href="#topics">جست‌وجوی موضوعی</a><a class="tb" href="#favs">علاقه‌مندی و یادداشت</a><a class="tb" href="#hist">تاریخچه</a><a class="tb" href="#data">دادهٔ قرآن</a></div>'+(Q.ok?'':'<div class="note"><b>متن قرآن هنوز وارد نشده است.</b> سراج متن قرآن را خودش تولید نمی‌کند؛ فایل رسمی Tanzil را در بخش «دادهٔ قرآن» وارد کنید. تا آن زمان فقط فهرست سوره‌ها و نشانی آیه‌ها در دسترس است.</div>')+(l&&Q.ok?'<a class="card" href="#surah/'+l.s+'/'+l.a+'"><p class="mut">ادامهٔ مطالعه</p><h3>'+ref(l.s,l.a)+'</h3></a>':'')+'<input id="q" class="srch" type="search" placeholder="جستجوی نام یا شمارهٔ سوره" aria-label="جستجوی سوره"><div class="list" id="sl"></div><div class="note">شمار آیه‌ها بر پایهٔ شمارش کوفی؛ مکی/مدنی بر پایهٔ فهرست رایج است (دربارهٔ برخی سوره‌ها اختلاف هست).</div></div>'},
 surah:function(a,b){var s=+a;if(!SN[s-1])return '<div class="page">'+hdr('سوره','quran')+'<div class="note">سوره یافت نشد.</div></div>';var n=SA[s-1],h='<div class="page">'+hdr('سورهٔ '+SN[s-1],'quran')+'<div class="card"><div class="kv"><span>نام عربی</span><b>'+AN[s-1]+'</b></div><div class="kv"><span>شمارهٔ سوره / آیه‌ها</span><b>'+fa(s)+' / '+fa(n)+'</b></div><div class="kv"><span>نوع</span><b>'+(MED[s]?'مدنی':'مکی')+'</b></div></div><div class="card" style="margin-top:12px"><h3>🎧 تلاوت صوتی سوره</h3><p class="mut">قاری: محمد صدیق المنشاوی (ترتیل)</p><audio id="saa" controls preload="none" style="width:100%;margin-top:10px" aria-label="پخش تلاوت سوره"></audio><p class="mut" id="sas" style="margin-top:8px">برای پخش، اتصال اینترنت لازم است.</p><div id="sadl"></div></div>';if(!Q.ar['1:1'])return h+'<div class="note">متن قرآن وارد نشده است. <a class="tag" href="#data">وارد کردن دادهٔ Tanzil</a></div></div>';
 var night=(document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))==='dark';
 h+='<div class="ab" style="margin-top:12px"><button class="tb" data-act="fs" data-d="-1" aria-label="کوچک‌کردن متن">A−</button><button class="tb" data-act="fs" data-d="1" aria-label="بزرگ‌کردن متن">A+</button><button class="tb" data-act="night" aria-pressed="'+night+'">حالت شب</button><button class="tb" data-act="tr">ترجمه: '+esc(Q.tr)+'</button></div><div class="card" id="rd" style="--rf:'+(1.1+.2*ST.rf)+'rem">';
@@ -381,19 +420,13 @@ return '<div class="page">'+hdr(ref(s,i),'surah/'+s+'/'+i)+'<div class="card">'+
 topics:function(){return '<div class="page">'+hdr('جست‌وجوی موضوعی','quran')+'<div class="note">فهرست موضوعی را سراج به‌صورت نشانی آیه تنظیم کرده است. متن آیه از دادهٔ واردشده می‌آید. اگر عبارتی جز موضوع‌ها بنویسید، در ترجمهٔ واردشده جست‌وجوی متنی انجام می‌شود.</div><input id="tq" class="srch" type="search" placeholder="مثلاً: صبر" aria-label="موضوع"><div class="ab">'+Object.keys(TOPICS).map(function(t){return '<button class="tb" data-act="tp" data-t="'+t+'">'+t+'</button>'}).join('')+'</div><div id="tr"></div></div>'},
 favs:function(){var ks=Object.keys(ST.fav).concat(Object.keys(ST.notes).filter(function(k){return ST.notes[k]&&!ST.fav[k]}));return '<div class="page">'+hdr('علاقه‌مندی‌ها و یادداشت‌ها','quran')+(ks.length?ks.map(function(k){return vline(k)+(ST.notes[k]?'<p class="note">یادداشت: '+esc(ST.notes[k])+'</p>':'')}).join(''):'<div class="note">هنوز آیه‌ای نشانه‌گذاری نشده است.</div>')+'</div>'},
 hist:function(){return '<div class="page">'+hdr('تاریخچهٔ مطالعه','quran')+(ST.hist.length?ST.hist.map(function(h){return '<a class="card row" href="#ayah/'+h.s+'/'+h.a+'" style="margin-bottom:10px"><div><h3>'+ref(h.s,h.a)+'</h3><p>'+when(h.ts)+'</p></div></a>'}).join('')+'<button class="btn sec" id="hc">پاک‌کردن تاریخچه</button>':'<div class="note">تاریخچه‌ای ثبت نشده است.</div>')+'</div>'},
-data:function(){return '<div class="page">'+hdr('منبع و مجوز دادهٔ قرآن','quran')+'<div class="note">متن عربی و ترجمه‌ها از Tanzil.net گرفته شده و در سراج بدون هیچ تغییری در متن ذخیره است؛ فقط هنگام نمایش، «بسم‌الله»ِ چسبیده به آیهٔ ۱ سوره‌ها جدا می‌شود. شمار ۶٬۲۳۶ آیه برای هر سه فایل راستی‌آزمایی شده است.</div><h3 class="sec-t">ترجمهٔ فارسی</h3><div class="seg" data-k="tr">'+['mk','gh'].map(function(x){return '<button data-v="'+x+'" aria-pressed="'+(Q.sel===x)+'">'+TRN[x]+'</button>'}).join('')+'</div>'+['ar','mk','gh'].map(function(x){return '<h3 class="sec-t">'+(x=='ar'?'متن عربی':'ترجمهٔ '+TRN[x])+'</h3><pre class="lic">'+esc(QD.h[x].join('\n'))+'</pre>'}).join('')+'</div>'},
-history:function(a){var op=function(arr,f){return arr.map(f).join('')},tps=[];EV.forEach(function(e){if(tps.indexOf(e.tp)<0)tps.push(e.tp)});return '<div class="page">'+hdr('تاریخ اسلام')+'<div class="note">خط زمانی رویدادهای منتخب. تاریخ‌ها تقریبی یا برپایهٔ روایت مشهورند و هرجا اختلاف هست، در صفحهٔ رویداد آمده است. محتوای این مرحله عمداً محدود است.</div><div class="ab"><a class="tb" href="#map">نقشهٔ تاریخی</a><a class="tb" href="#eras">دوره‌ها و رویدادهای دیگر</a></div><input id="hq" class="srch" type="search" value="'+esc(dc(a))+'" placeholder="جست‌وجو: شخصیت، دوره، مکان، موضوع" aria-label="جست‌وجو"><select id="fp" class="srch" aria-label="دورهٔ تاریخی"><option value="">همهٔ دوره‌ها</option>'+op(HP,function(x,i){return '<option value="'+i+'">'+x+'</option>'})+'</select><select id="fl" class="srch" aria-label="مکان"><option value="">همهٔ مکان‌ها</option>'+op(Object.keys(LOC),function(k){return '<option value="'+k+'">'+LOC[k][0]+'</option>'})+'</select><select id="ft" class="srch" aria-label="موضوع"><option value="">همهٔ موضوع‌ها</option>'+op(tps,function(x){return '<option>'+x+'</option>'})+'</select><div id="tl" aria-live="polite"></div></div>'},
+data:function(){return '<div class="page">'+hdr('منبع و مجوز دادهٔ قرآن','quran')+'<div class="note">متن عربی و ترجمه‌ها از Tanzil.net گرفته شده و در سراج بدون دست‌کاری در متن ذخیره است؛ فقط هنگام نمایش، «بسم‌الله»ِ چسبیده به آیهٔ ۱ سوره‌ها جدا می‌شود. شمار ۶٬۲۳۶ آیه برای هر سه فایل راستی‌آزمایی شده است.</div><h3 class="sec-t">ترجمهٔ فارسی</h3><div class="seg" data-k="tr">'+['mk','gh'].map(function(x){return '<button data-v="'+x+'" aria-pressed="'+(Q.sel===x)+'">'+TRN[x]+'</button>'}).join('')+'</div>'+['ar','mk','gh'].map(function(x){return '<h3 class="sec-t">'+(x=='ar'?'متن عربی':'ترجمهٔ '+TRN[x])+'</h3><pre class="lic">'+esc(QD.h[x].join('\n'))+'</pre>'}).join('')+'</div>'},
+history:function(a){var op=function(arr,f){return arr.map(f).join('')},tps=[];EV.forEach(function(e){if(tps.indexOf(e.tp)<0)tps.push(e.tp)});return '<div class="page">'+hdr('تاریخ اسلام')+'<div class="note">خط زمانی رویدادهای منتخب. تاریخ‌ها تقریبی یا برپایهٔ روایت مشهورند و هرجا اختلاف هست، در صفحهٔ رویداد آمده است. تعداد رویدادها فعلاً محدود است.</div><div class="ab"><a class="tb" href="#map">نقشهٔ تاریخی</a><a class="tb" href="#eras">دوره‌ها و رویدادهای دیگر</a></div><input id="hq" class="srch" type="search" value="'+esc(dc(a))+'" placeholder="جست‌وجو: شخصیت، دوره، مکان، موضوع" aria-label="جست‌وجو"><select id="fp" class="srch" aria-label="دورهٔ تاریخی"><option value="">همهٔ دوره‌ها</option>'+op(HP,function(x,i){return '<option value="'+i+'">'+x+'</option>'})+'</select><select id="fl" class="srch" aria-label="مکان"><option value="">همهٔ مکان‌ها</option>'+op(Object.keys(LOC),function(k){return '<option value="'+k+'">'+LOC[k][0]+'</option>'})+'</select><select id="ft" class="srch" aria-label="موضوع"><option value="">همهٔ موضوع‌ها</option>'+op(tps,function(x){return '<option>'+x+'</option>'})+'</select><div id="tl" aria-live="polite"></div></div>'},
 event:function(a){var e=EV[+a];if(!e)return '<div class="page">'+hdr('رویداد','history')+'<div class="note">رویداد یافت نشد.</div></div>';return '<div class="page">'+hdr(e.t,'history')+illus(e.im,e.t)+'<div class="card"><div class="kv"><span>تاریخ</span><b>'+e.d+'</b></div><div class="kv"><span>دوره</span><b>'+HP[e.p]+'</b></div><div class="kv"><span>موضوع</span><b>'+e.tp+'</b></div><div class="kv"><span>مکان</span><b>'+e.l.map(function(k){return '<a class="tag" href="#map/'+k+'">'+LOC[k][0]+'</a>'}).join(' ')+'</b></div><p class="body">'+e.s+'</p>'+(e.dis?'<p class="note dis"><b>اختلاف روایت‌ها:</b> '+e.dis+'</p>':'')+'<h3 class="sec-t">شخصیت‌های مرتبط</h3><div class="ab">'+e.ppl.map(function(n){return '<a class="tb" href="#history/'+encodeURIComponent(n)+'">'+n+'</a>'}).join('')+'</div></div><div class="ab" style="margin-top:14px"><button class="tb" data-tab="one" aria-pressed="true">خلاصهٔ یک‌دقیقه‌ای</button><button class="tb" data-tab="det" aria-pressed="false">روایت تفصیلی</button><button class="tb" data-tab="key" aria-pressed="false">نکات مهم</button><button class="tb" data-tab="qz" aria-pressed="false">سؤالات آموزشی</button></div><div class="card" id="ep"></div><div class="card" style="margin-top:12px">'+srcBox(e.src)+'</div><div class="note">منابع به‌صورت عمومی نام برده شده‌اند؛ ارجاع دقیق به جلد و صفحه هنوز افزوده نشده است. این متن خلاصه‌ای آموزشی است و جایگزین مراجعه به منابع نیست.</div></div>'},
 map:function(a){return '<div class="page">'+hdr('نقشهٔ تاریخی','history')+'<div class="note">نقشهٔ آموزشی و شماتیک است (بدون مرز و ساحل؛ مکان‌ها تقریبی‌اند). روی یک مکان بزنید.</div><div class="ab" id="mv"><button class="tb" data-v="hj" aria-pressed="true">حجاز</button><button class="tb" data-v="wd" aria-pressed="false">گسترهٔ تمدن اسلامی</button></div><div id="mp"></div><div id="mi" style="margin-top:12px" aria-live="polite"></div></div>'},
-eras:function(){return '<div class="page">'+hdr('دوره‌ها و رویدادهای دیگر','history')+'<div class="note">فهرست دوره‌ها از مرحلهٔ ۳. تاریخ‌ها مطابق روایت‌های رایج‌اند و در برخی موارد اختلاف دارند.</div><div class="list" style="margin-top:16px">'+ERAS.map(function(e,i){return '<a class="ln card row" href="#era/'+i+'" style="display:flex"><div><h3>'+e[0]+'</h3><p>'+e[1]+' | '+fa(e[2].length)+' رویداد</p></div></a>'}).join('')+'</div></div>'},
-era:function(a){var e=ERAS[+a];if(!e)return '<div class="page">'+hdr('دوره','history')+'<div class="note">دوره یافت نشد.</div></div>';return '<div class="page">'+hdr(e[0],'eras')+'<p class="mut">'+e[1]+'</p><div class="list" style="margin-top:12px">'+e[2].map(function(v){return '<div class="ln"><div class="card"><h3>'+v[0]+'</h3><p><b>'+v[1]+'</b></p>'+(v[2]?'<p>'+v[2]+'</p>':'')+'</div></div>'}).join('')+'</div>'+srcBox(e[3])+'<div class="note">منابع به‌صورت عمومی نام برده شده‌اند؛ ارجاع دقیق به جلد و صفحه در مرحلهٔ ۳ افزوده می‌شود.</div></div>'},
+eras:function(){return '<div class="page">'+hdr('دوره‌ها و رویدادهای دیگر','history')+'<div class="note">فهرست دوره‌های تاریخی. تاریخ‌ها مطابق روایت‌های رایج‌اند و در برخی موارد اختلاف دارند.</div><div class="list" style="margin-top:16px">'+ERAS.map(function(e,i){return '<a class="ln card row" href="#era/'+i+'" style="display:flex"><div><h3>'+e[0]+'</h3><p>'+e[1]+' | '+fa(e[2].length)+' رویداد</p></div></a>'}).join('')+'</div></div>'},
+era:function(a){var e=ERAS[+a];if(!e)return '<div class="page">'+hdr('دوره','history')+'<div class="note">دوره یافت نشد.</div></div>';return '<div class="page">'+hdr(e[0],'eras')+'<p class="mut">'+e[1]+'</p><div class="list" style="margin-top:12px">'+e[2].map(function(v){return '<div class="ln"><div class="card"><h3>'+v[0]+'</h3><p><b>'+v[1]+'</b></p>'+(v[2]?'<p>'+v[2]+'</p>':'')+'</div></div>'}).join('')+'</div>'+srcBox(e[3])+'<div class="note">منابع به‌صورت عمومی نام برده شده‌اند؛ ارجاع دقیق به جلد و صفحه هنوز افزوده نشده است.</div></div>'},
 tafsir:function(){return '<div class="page">'+hdr('تفسیر مستند','quran')+'<div class="note">سراج متن تفسیر ندارد و آن را نمی‌سازد. اینجا می‌توانید تفسیری را که از منبع معتبر دارید وارد کنید؛ هر مورد باید مفسر و منبع (کتاب، جلد/صفحه) داشته باشد و کنار آیه با همین مشخصات نمایش داده می‌شود. داده فقط در همین مرورگر ذخیره می‌شود.</div><div class="card" style="margin-top:12px"><h3>وضعیت</h3><p id="tfc">'+tfStat()+'</p></div><h3 class="sec-t">قالب JSON</h3><pre class="lic">{\n "2:255": [\n  {"mufassir": "نام مفسر",\n   "source": "نام کتاب، جلد، صفحه",\n   "text": "متن تفسیر"}\n ]\n}</pre><input id="tff" type="file" accept=".json,application/json" class="srch" aria-label="انتخاب فایل JSON"><textarea id="tfi" class="srch" rows="7" dir="ltr" aria-label="متن JSON" placeholder="JSON را اینجا بچسبانید"></textarea><div class="ab"><button class="btn" id="tfa">افزودن</button><button class="btn sec" id="tfr">جایگزینی همه</button><button class="btn sec" id="tfx">پاک‌کردن</button></div><div id="tfs" aria-live="polite"></div></div>'},
-prophets:function(){return '<div class="page">'+hdr('پیامبران','home')+'<div class="note">خلاصهٔ هر داستان با ذکر سوره و آیه‌های مرتبط. برای جزئیات، به خود آیه‌ها و تفاسیر مراجعه کنید.</div><div class="grid" style="margin-top:12px">'+PROPHETS.map(function(p,i){return '<a class="card" href="#prophet/'+i+'"><h3>'+p[0]+'</h3><p>مشاهدهٔ داستان</p></a>'}).join('')+'</div></div>'},
-prophet:function(a){var p=PROPHETS[+a];if(!p)return '<div class="page">'+hdr('پیامبر','prophets')+'<div class="note">یافت نشد.</div></div>';return '<div class="page">'+hdr(p[0],'prophets')+'<div class="card"><p class="body">'+p[1]+'</p><div class="kv" style="margin-top:10px"><span>آیه‌های مرتبط</span><b>'+p[2]+'</b></div><div class="kv"><span>پیام</span><b>'+p[3]+'</b></div>'+srcBox(['قرآن کریم (مواضع بالا)'])+'</div><div class="note">این خلاصه برگرفته از ظاهر آیات است و تفسیر تفصیلی نیست؛ نام مفسر و منبع تفسیری در مرحلهٔ ۳ افزوده می‌شود.</div></div>'},
-imams:function(){return '<div class="page">'+hdr('۱۴ معصوم','home')+'<div class="note">زندگی‌نامهٔ کوتاه هر یک، مطابق روایت مشهور شیعه، همراه با منبع.</div><div class="list">'+IMAMS.map(function(p,i){return item(fa(i+1),p[0],p[1],'','imam/'+i)}).join('')+'</div></div>'},
-imam:function(a){var p=IMAMS[+a];if(!p)return '<div class="page">'+hdr('زندگی‌نامه','imams')+'<div class="note">یافت نشد.</div></div>';return '<div class="page">'+hdr(p[0],'imams')+'<div class="card"><div class="kv"><span>نام و لقب</span><b>'+p[1]+'</b></div><div class="kv"><span>ولادت</span><b>'+p[2]+'</b></div><div class="kv"><span>وفات/شهادت</span><b>'+p[3]+'</b></div><p class="body">'+p[4]+'</p>'+(p[5]?'<p class="note">'+p[5]+'</p>':'')+srcBox(p[6])+'</div><div class="note">تاریخ‌ها مطابق روایت مشهور و ممکن است در منابع دیگر متفاوت باشند. ارجاع دقیق به جلد و صفحه در مرحلهٔ ۳ افزوده می‌شود.</div></div>'},
-quiz:function(){return '<div class="page">'+hdr('مسابقه')+'<div class="note">هر دسته ۶ پرسش دارد. برای هر پاسخ درست ۲ امتیاز می‌گیرید و فقط بهبود بهترین نتیجه امتیاز تازه دارد.</div><div class="grid" style="margin-top:12px">'+QB.map(function(c,i){var b=ST.qb[i];return '<a class="card" href="#quizrun/'+i+'"><div class="ic">'+ic(c.ic)+'</div><h3>'+c.n+'</h3><p>'+(b===undefined?'شروع':'بهترین: '+fa(b)+' از '+fa(c.q.length))+'</p></a>'}).join('')+'</div></div>'},
-quizrun:function(a){var c=QB[+a];if(!c)return '<div class="page">'+hdr('مسابقه','quiz')+'<div class="note">دسته یافت نشد.</div></div>';return '<div class="page">'+hdr('مسابقهٔ '+c.n,'quiz')+'<div id="qz"></div></div>'},
 profile:function(){return '<div class="page"><div class="top"><h2>پروفایل</h2><a class="ib" href="#prefs" aria-label="تنظیمات">'+ic('gear')+'</a></div><div class="hero" style="text-align:center"><div class="ic" style="margin:0 auto 8px;width:64px;height:64px;border-radius:50%">'+ic('user')+'</div><h1 style="font-size:1.2rem">کاربر مهمان</h1><p>'+(ST.act?'آخرین فعالیت: '+ST.act.t+' ('+when(ST.act.ts)+')':'هنوز فعالیتی ثبت نشده است.')+'</p></div><div class="grid"><div class="card"><h3>'+fa(ST.score)+'</h3><p>امتیاز</p></div><div class="card"><h3>'+fa(ST.done.length)+' از '+fa(PATH.length)+'</h3><p>بخش‌های مطالعه‌شده</p></div></div><a class="btn" href="#prefs">تنظیمات برنامه</a> <button class="btn sec" id="rst">پاک‌کردن پیشرفت</button></div>'},
 prefs:function(){var th=store.get('theme')||'auto',fs=store.get('fs')||'100%';var seg=function(k,o,cur){return '<div class="seg" data-k="'+k+'">'+o.map(function(x){return '<button data-v="'+x[0]+'" aria-pressed="'+(x[0]==cur)+'">'+x[1]+'</button>'}).join('')+'</div>'};
 return '<div class="page">'+hdr('تنظیمات','profile')+'<h3 class="sec-t">حالت نمایش</h3>'+seg('theme',[['light','روشن'],['dark','تاریک'],['auto','خودکار']],th)+'<h3 class="sec-t">اندازهٔ متن</h3>'+seg('fs',[['90%','کوچک'],['100%','متوسط'],['115%','بزرگ']],fs)+'<h3 class="sec-t">وضعیت اتصال‌ها</h3><div class="list"><a class="card row" href="#tafsir"><div><h3>تفسیر</h3><p>'+tfStat()+'</p></div></a><div class="card row"><div><h3>هوش مصنوعی</h3><p>متصل نیست (مرحلهٔ ۳)</p></div></div><div class="card row"><div><h3>بانک اطلاعات</h3><p>متصل نیست (مرحلهٔ ۳)</p></div></div></div><a class="btn sec" href="#welcome">نمایش دوبارهٔ خوشامدگویی</a></div>'}
@@ -578,7 +611,7 @@ function initSurahAudio(a){
   if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:'سورهٔ '+SN[s-1],artist:'محمد صدیق المنشاوی',album:'سراج'})}catch(e){}}
 }
 function route(){stopSurahAudio();window.onscroll=null;var p=(location.hash||'#splash').slice(1).split('/'),r=p[0],a=p[1];if(!pages[r]){r='splash';a=undefined}
-$('#app').innerHTML=pages[r](a,p[2]);window.scrollTo(0,0);if(r==='surah')initSurahAudio(a);if(hooks[r])hooks[r](a,p[2]);
+try{$('#app').innerHTML=pages[r](a,p[2]);window.scrollTo(0,0);if(r==='surah')initSurahAudio(a);if(hooks[r])hooks[r](a,p[2])}catch(err){console.error(err);$('#app').innerHTML=window.errPage?errPage():'<div class="note">خطا در نمایش صفحه.</div>'}
 var act=NAV.some(function(n){return n[0]==r})?r:par[r];var show=r!=='splash'&&r!=='welcome';
 $('#nav').hidden=!show;
 $('#nav div').innerHTML=NAV.map(function(n){return '<a href="#'+n[0]+'"'+(n[0]==act?' aria-current="page"':'')+'>'+ic(n[2])+'<span>'+n[1]+'</span></a>'}).join('');
@@ -1273,8 +1306,8 @@ EV.forEach(function(e,i){IX.push({k:'event',t:e.t,w:W(e.t+' '+A(e.ppl).join(' ')
 return IX}
 function known(){if(KS)return KS;KS=[];ix().forEach(function(d){d.src.forEach(function(s){KS.push(norm(s.replace(/^قرآن کریم:.*/,'قرآن کریم')))})});TAF.forEach(function(s){KS.push(norm(s.split(' (')[0]))});return KS}
 function find(q){var T=W(q).trim().split(' ').filter(function(t){return t.length>2&&STOP.indexOf(' '+t+' ')<0}),D=ix(),N=D.length;if(!T.length)return[];
-var df=T.map(function(t){return D.filter(function(d){return(d.w+d.x).indexOf(' '+t)>-1}).length});
-return D.map(function(d){var s=0;T.forEach(function(t,j){if(!df[j])return;var id=Math.log(1+N/df[j]);if(d.w.indexOf(' '+t)>-1)s+=3*id;else if(d.x.indexOf(' '+t)>-1)s+=id});return{d:d,s:s}}).filter(function(r){return r.s>0}).sort(function(a,b){return b.s-a.s}).slice(0,3)}
+var hit=function(str,t){return str.indexOf(' '+t+' ')>-1||(t.length>=5&&str.indexOf(' '+t)>-1)};var df=T.map(function(t){return D.filter(function(d){return hit(d.w,t)||hit(d.x,t)}).length});
+return D.map(function(d){var s=0,th=0,bh=0;T.forEach(function(t,j){if(!df[j])return;var id=Math.log(1+N/df[j]);if(hit(d.w,t)){s+=3*id;th++}else if(hit(d.x,t)){s+=id;bh++}});return{d:d,s:s,ok:th>0||bh>=2}}).filter(function(r){return r.s>0&&r.ok}).sort(function(a,b){return b.s-a.s}).slice(0,3)}
 function tool(q){var n=norm(q).trim();return/^خلاصه/.test(n)?'sum':/^آزمون/.test(n)?'quiz':/^(معنی|واژه)/.test(n)?'word':/^(مقایسه|تفاوت|اختلاف)/.test(n)?'cmp':/^مسیر/.test(n)?'path':''}
 function verse(q){var t=String(q).replace(/[۰-۹]/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)}),m=t.match(/(\d{1,3})\s*:\s*(\d{1,3})/);if(m)return{s:+m[1],a:+m[2]};
 var n=t.match(/آیه\S*\s*(\d{1,3})/),w=W(t),b=0;if(!n)return null;for(var s=1;s<=114;s++){var nm=W(SN[s-1]).trim();if(nm.length>2&&w.indexOf(' '+nm+' ')>-1&&(!b||nm.length>W(SN[b-1]).trim().length))b=s}
@@ -1283,7 +1316,7 @@ function two(s){var p=String(s).match(/[^.؟!]+[.؟!]?\s*/g)||[s];return[p.slice
 function qref(k){var p=k.split(':');return{l:'قرآن، '+ref(+p[0],+p[1]),v:'ok',m:'شمارهٔ آیه با فهرست برنامه همخوان است؛ متن از Tanzil',x:AR(k),h:'#ayah/'+p[0]+'/'+p[1]}}
 function lv(v){var s=v.s,n=v.a;if(!(s>=1&&s<=114&&n>=1&&n<=SA[s-1]))return{src:'local',found:false,simple:s>=1&&s<=114?'سورهٔ «'+SN[s-1]+'» '+fa(SA[s-1])+' آیه دارد؛ آیهٔ '+fa(n)+' وجود ندارد.':'چنین سوره‌ای وجود ندارد؛ قرآن ۱۱۴ سوره دارد.',refs:[],next:[]};
 var k=s+':'+n,tf=TF[k]||[],r=[qref(k)];tf.forEach(function(x){r.push({l:'تفسیر: '+x.m+'؛ '+x.s,v:'ok2',m:'واردشده توسط خود شما، با مفسر و منبع'})});
-return{src:'local',found:true,kind:'quran',simple:Q.fa[k]?'ترجمهٔ '+Q.tr+': '+Q.fa[k]:'ترجمهٔ فارسی وارد نشده است.',detail:tf.length?tf.map(function(x){return x.t}).join('\n\n'):'تفسیری برای این آیه وارد نشده و سراج خودش تفسیر نمی‌نویسد. تفسیر معتبر را در «تفسیر مستند» وارد کنید؛ در حالت متصل، توضیح مدل «برداشت» است نه تفسیر.',refs:r,next:n<SA[s-1]?['مفهوم '+ref(s,n+1)+' چیست؟']:[],lk:[['#ayah/'+s+'/'+n,'صفحهٔ آیه']]}}
+return{src:'local',found:true,kind:'quran',simple:Q.fa[k]?'ترجمهٔ '+Q.tr+': '+Q.fa[k]:'ترجمهٔ فارسی وارد نشده است.',detail:tf.length?tf.map(function(x){return x.t}).join('\n\n'):'تفسیری برای این آیه وارد نشده و سراج خودش تفسیر نمی‌نویسد. تفسیر معتبر را در «تفسیر مستند» وارد کنید.',refs:r,next:n<SA[s-1]?['مفهوم '+ref(s,n+1)+' چیست؟']:[],lk:[['#ayah/'+s+'/'+n,'صفحهٔ آیه']]}}
 function lc(d,tl){var t=two(d.s),r=A(d.src).map(function(s){return{l:s,v:'ok2',m:'منبع ثبت‌شده در برنامه؛ ارجاع دقیق جلد/صفحه هنوز افزوده نشده'}});
 A(d.q).slice(0,4).forEach(function(k){r.push(qref(k))});
 var dis=d.dis||(d.dif?d.dif.map(function(x){return x[0]+': '+x[1]}).join('؛ '):'');
@@ -1294,8 +1327,8 @@ return a}
 function none(m){return{src:'local',found:false,simple:'پاسخ مستند در دسترس نیست. '+(m||'این پرسش با محتوای مستند داخلی برنامه تطبیق نخورد.')+' پاسخ ساختگی نمی‌دهم؛ پرسش را دقیق‌تر کنید (نام پیامبر، امام، رویداد یا «سوره و شمارهٔ آیه»).',refs:[],next:SUG.slice(1,4).map(function(x){return x[0]})}}
 function local(q){var tl=tool(q),v=verse(q);if(v)return lv(v);
 if(tl==='path'){var R0=find(q);return{src:'local',found:true,simple:'مسیر پیشنهادی بر پایهٔ درس‌های خود برنامه:'+(R0.length?' نخست «'+R0[0].d.t+'»، سپس':''),detail:PATH.map(function(p,i){return fa(i+1)+'. '+p}).join('\n'),refs:[],lk:(R0.length?[[R0[0].d.l,R0[0].d.t]]:[]).concat(PATH.map(function(p,i){return['#lesson/'+i,p]})),next:[]}}
-if(tl==='quiz')return{src:'local',found:true,simple:'ساخت آزمونِ تازه نیاز به اتصال هوش مصنوعی دارد. در حالت نمایشی از بانک پرسش‌های منبع‌دار برنامه استفاده کنید.',refs:[],lk:[['#quiz','مسابقه'],['#exam','آزمون اختصاصی']],next:[]};
-if(tl==='word')return{src:'local',found:false,simple:'پاسخ مستند در دسترس نیست. برنامه فرهنگ واژگان ندارد و در حالت نمایشی معنی واژه را از خودش نمی‌سازد.',refs:[],next:[]};
+if(tl==='quiz')return{src:'local',found:true,simple:'ساخت آزمون تازه با هوش مصنوعی در این نسخه فعال نیست (در برنامهٔ توسعهٔ آینده است). از بانک پرسش‌های منبع‌دار برنامه استفاده کنید.',refs:[],lk:[['#quiz','مسابقه'],['#exam','آزمون اختصاصی']],next:[]};
+if(tl==='word')return{src:'local',found:false,simple:'پاسخ مستند در دسترس نیست. برنامه فرهنگ واژگان ندارد و معنی واژه را از خودش نمی‌سازد.',refs:[],next:[]};
 var R=find(q);if(R.length&&R[0].s>=2.5)return lc(R[0].d,tl);
 if(tl==='cmp'){var L=ix().filter(function(d){return d.k==='event'&&d.dis}).slice(0,5);return{src:'local',found:true,kind:'history',simple:'موضوع‌هایی که در منابع برنامه اختلاف روایت دارند (برای هر مورد نام آن را بپرسید):',detail:L.map(function(d){return'• '+d.t+': '+d.dis}).join('\n'),refs:[],lk:L.map(function(d){return[d.l,d.t]}),next:L.slice(0,2).map(function(d){return'اختلاف روایت‌ها دربارهٔ '+d.t})}}
 return none()}
@@ -1313,14 +1346,14 @@ function cacheable(a){return a.src==='ai'&&a.found&&!a.drop&&a.refs.some(functio
 function put(k,a){var o={};['simple','detail','dis','kind','refs','next'].forEach(function(f){o[f]=a[f]});S7.cache[k]={a:o,ts:Date.now()};var ks=Object.keys(S7.cache);if(ks.length>40){ks.sort(function(x,y){return S7.cache[x].ts-S7.cache[y].ts});delete S7.cache[ks[0]]}}
 function add(m){S7.chat.push(m);if(S7.chat.length>40)S7.chat.shift()}
 function fin(a,note){if(note)a.note=note;add({r:'a',a:a});busy=false;draw();stat()}
-function conn(){if(AIS!=='check')return Promise.resolve();AIS='wait';stat();return(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).then(function(s){AI=s||null;AIS=s?'ok':'off'}).catch(function(){AIS='off'}).then(stat)}
+function conn(){if(AIS!=='check')return Promise.resolve();if(!SERAJ_FLAGS.aiBridge){AIS='off';stat();return Promise.resolve()}AIS='wait';stat();return(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).then(function(s){AI=s||null;AIS=s?'ok':'off'}).catch(function(){AIS='off'}).then(stat)}
 function send(q){q=String(q||'').trim().slice(0,400);if(!q||busy)return Promise.resolve();
 var pq=S7.chat.filter(function(m){return m.r==='u'}).pop(),pa=S7.chat[S7.chat.length-1],k=ckey(q);add({r:'u',t:q});
 if(pq&&pa&&pa.r==='a'&&ckey(pq.t)===k){fin(Object.assign({},pa.a),'پرسش تکراری بود؛ همان پاسخ قبلی نمایش داده شد و به مدل متصل نشدم.');return Promise.resolve()}
 if(S7.cache[k]){fin(Object.assign({src:'cache'},S7.cache[k].a));return Promise.resolve()}
 var L=local(q);busy=true;draw();
 return conn().then(function(){
-if(AIS!=='ok')return fin(L,'حالت نمایشی: اتصال هوش مصنوعی در این نمایشگر در دسترس نیست؛ پاسخ فقط از محتوای مستند برنامه است.');
+if(AIS!=='ok')return fin(L,'');
 if(S7.rl.d!==DAY)S7.rl={d:DAY,n:0};
 if(S7.rl.n>=LIM)return fin(L,'به سقف '+fa(LIM)+' پرسش هوشمند در روز رسیده‌اید؛ پاسخ مستند داخلی نمایش داده شد.');
 if(Date.now()-last<GAP)return fin(L,'پرسش‌ها را با فاصلهٔ چند ثانیه بفرستید؛ این بار پاسخ داخلی نمایش داده شد.');
@@ -1332,10 +1365,10 @@ if(cacheable(a)){put(k,a);save()}else a.note=a.refs.length?'برخی ارجاع�
 fin(a,a.note)})
 .catch(function(){fin(L,'اتصال به هوش مصنوعی برقرار نشد یا پاسخ نامعتبر بود؛ پاسخ مستند داخلی نمایش داده شد.')})})}
 function rf(r){var T={ok:'معتبر',ok2:'منبع برنامه',warn:'تأییدنشده'}[r.v];return'<div class="rf'+(r.v==='warn'?' warn':'')+'"><span class="tag">'+T+'</span> '+(r.h?'<a href="'+r.h+'">'+esc(r.l)+'</a>':esc(r.l))+(r.x?'<div class="va">'+esc(r.x)+'</div>':'')+'<div class="mut" style="font-size:.78rem">'+esc(r.m||'')+'</div></div>'}
-function rb(m,i){if(m.r==='u')return'<div class="hu">'+esc(m.t)+'</div>';var a=m.a,B={ai:'هوش مصنوعی (Claude) با بررسی خودکار ارجاع',local:'حالت نمایشی: محتوای مستند برنامه، بدون هوش مصنوعی',cache:'پاسخ ذخیره‌شدهٔ تأییدشده'}[a.src];
+function rb(m,i){if(m.r==='u')return'<div class="hu">'+esc(m.t)+'</div>';var a=m.a,B={ai:'هوش مصنوعی (Claude) با بررسی خودکار ارجاع',local:'جست‌وجوی مستند داخلی (آفلاین، بدون هوش مصنوعی)',cache:'پاسخ ذخیره‌شدهٔ تأییدشده'}[a.src];
 return'<div class="card ha"><span class="tag">'+B+'</span> '+(KIND[a.kind]?'<span class="tag">'+KIND[a.kind]+'</span>':'')+'<p class="body" style="white-space:pre-wrap">'+esc(a.simple||'')+'</p>'+(a.detail?'<details><summary>توضیح تکمیلی</summary><p class="body" style="white-space:pre-wrap">'+esc(a.detail)+'</p></details>':'')+(a.dis?'<p class="note"><b>اختلاف دیدگاه‌ها / نکتهٔ تفسیری:</b> '+esc(a.dis)+'</p>':'')+(a.note?'<p class="note">'+esc(a.note)+'</p>':'')+(a.refs&&a.refs.length?'<div class="src"><b>منابع:</b>'+a.refs.map(rf).join('')+'</div>':'')+(a.lk&&a.lk.length?'<div class="ab">'+a.lk.map(function(x){return'<a class="tb" href="'+x[0]+'">'+esc(x[1])+'</a>'}).join('')+'</div>':'')+'<div class="ab"><button class="tb" data-h="cp" data-i="'+i+'">کپی پاسخ</button></div>'+(a.next&&a.next.length?'<p class="mut">پرسش بعدی:</p><div class="ab">'+a.next.map(function(x){return'<button class="tb" data-h="q" data-q="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'')+'</div>'}
 function draw(){var l=$('#hl');if(!l)return;l.innerHTML=S7.chat.map(rb).join('')+(busy?'<p class="mut">در حال پاسخ‌دادن…</p>':'');var s=$('#hs');if(s)s.hidden=S7.chat.length>0;save();var c=$('.hc');if(c&&S7.chat.length)c.scrollIntoView({block:'end'})}
-function stat(){var e=$('#hst');if(!e)return;var n=S7.rl.d===DAY?S7.rl.n:0;e.innerHTML=AIS==='ok'?'<b>وضعیت: متصل.</b> پاسخ‌دهی از طریق Claude در نمایشگر، بدون کلید API در برنامه، و فقط هنگام ارسال پرسش. امروز '+fa(n)+' از '+fa(LIM)+' پرسش هوشمند.':AIS==='wait'||AIS==='check'?'<b>وضعیت:</b> در حال بررسی اتصال…':'<b>وضعیت: حالت نمایشی، بدون هوش مصنوعی.</b> اتصال به مدل در این نمایشگر در دسترس نیست. پاسخ‌ها فقط از محتوای مستند خود برنامه ساخته می‌شوند و ادعای اتصال واقعی نمی‌شود.'}
+function stat(){var e=$('#hst');if(!e)return;var n=S7.rl.d===DAY?S7.rl.n:0;e.innerHTML=AIS==='ok'?'<b>وضعیت: متصل.</b> پاسخ‌دهی از طریق Claude در نمایشگر، بدون کلید API در برنامه، و فقط هنگام ارسال پرسش. امروز '+fa(n)+' از '+fa(LIM)+' پرسش هوشمند.':AIS==='wait'||AIS==='check'?'<b>وضعیت:</b> در حال بررسی اتصال…':'<b>وضعیت: جست‌وجوی مستند آفلاین، بدون هوش مصنوعی.</b> در این نسخه هیچ مدل هوش مصنوعی متصل نیست و برنامه ادعای اتصال ندارد. پاسخ‌ها فقط از محتوای ثبت‌شدهٔ خود برنامه و همراه با منبع ساخته می‌شوند؛ اگر مطلبی ثبت نشده باشد، صریحاً اعلام می‌شود. اتصال هوش مصنوعی در <a href="#roadmap">توسعه‌های آینده</a> است.'}
 function plain(a){return[a.simple,a.detail,a.dis?'اختلاف دیدگاه‌ها: '+a.dis:'','منابع:'].concat((a.refs||[]).map(function(r){return'- '+r.l})).filter(Boolean).join('\n')}
 function cp(i,b){var m=S7.chat[i];if(!m||!m.a)return;var t=plain(m.a),ok=function(){b.textContent='کپی شد'};try{navigator.clipboard.writeText(t).then(ok,function(){fb(t,ok)})}catch(e){fb(t,ok)}}
 function fb(t,ok){var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(e){}x.remove()}
@@ -1352,6 +1385,145 @@ else if(k==='dl'){S7.saved.splice(+b.dataset.i,1);save();route()}});
 var op=pages.prefs;pages.prefs=function(){return op.apply(this,arguments).replace(/<h3>هوش مصنوعی<\/h3><p>[^<]*<\/p>/,'<h3>هوش مصنوعی (همراه سراج)</h3><p>بدون کلید API در برنامه؛ اتصال در صفحهٔ دستیار بررسی و نمایش داده می‌شود</p>')};
 var st7=document.createElement('style');st7.textContent='.hu{background:var(--em);color:#f6f1e1;border-radius:18px 18px 18px 4px;padding:10px 14px;margin:10px 0 10px 28px}.ha{margin:10px 0}.ha details{margin-top:6px}.ha summary{cursor:pointer;font-weight:700;color:var(--acc)}.rf{border-inline-start:3px solid var(--gold);padding:4px 10px;margin:8px 0}.rf.warn{border-color:var(--bad)}.rf .va{font-size:1.15rem;line-height:2.1;margin:2px 0}.hc{position:sticky;bottom:92px;background:var(--bg);padding:8px 0;margin-top:12px;z-index:2}.ab{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}';document.head.appendChild(st7);
 window.__S7={vet:vet,parse:parse,local:local,find:find,verse:verse,send:send,tool:tool,S7:S7,LIM:LIM,prompt:prompt,cacheable:cacheable,reset:function(){AIS='check';AI=null;busy=false;last=0},setGap:function(n){last=n}};
+})();
+
+/* ===== SERAJ مرحلهٔ ۸: تثبیت، شفاف‌سازی و آماده‌سازی برای ارائه ===== */
+(function(){
+var META={ver:'۱٫۰٫۰',verEn:'1.0.0',date:'آبان ۱۴۰۵',maker:'ابوالفضل هومان',eitaa:'abolfazl_hooman',mail:'abolfazlhooman461@gmail.com'};
+var CREDIT='طراحی و توسعه: '+META.maker;
+var EX=' target="_blank" rel="noopener noreferrer"';
+var eitaaA='<a class="mk" dir="ltr" href="https://eitaa.com/'+META.eitaa+'"'+EX+'>@'+META.eitaa+'</a>';
+var mailA='<a class="mk" dir="ltr" href="mailto:'+META.mail+'">'+META.mail+'</a>';
+var tag=function(t){return '<span class="tag">'+t+'</span>'};
+var FUT=tag('در برنامهٔ توسعه'),REV=tag('در دست بررسی');
+var li=function(a){return '<ul class="cl body">'+a.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'};
+var card=function(h,b){return '<div class="card" style="margin-top:12px">'+(h?'<h3>'+h+'</h3>':'')+b+'</div>'};
+var pg=function(t,back,body){return '<div class="page">'+hdr(t,back)+body+'</div>'};
+var trialNote='<div class="note dis"><b>نسخهٔ آزمایشی آموزشی:</b> محتوای دینی و تاریخی برنامه دارای منبع نام‌برده‌شده است، اما هنوز بازبینی رسمی کارشناسی نشده است. برای استناد، به منابع اصلی مراجعه کنید.</div>';
+
+/* ---------- ابزارهای عمومی ---------- */
+var tt=0;
+function toast(m){var e=$('#toast');if(!e)return;e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){e.classList.remove('on')},3500)}
+function resetProgress(){ST.score=0;ST.done=[];ST.qb={};delete ST.act;delete ST.ch;delete ST.s6;delete ST.last;save()}
+function clearAll(){try{localStorage.clear()}catch(e){}try{sessionStorage.clear()}catch(e){}window.onscroll=null;location.hash='#splash';location.reload()}
+window.SERAJ={meta:META,toast:toast,resetProgress:resetProgress,clearAll:clearAll};
+window.errPage=function(){return pg('خطا','home','<div class="note dis"><b>مشکلی در نمایش این صفحه رخ داد.</b> اطلاعات شما حذف نشده است.</div><a class="btn" href="#home">بازگشت به خانه</a> <button class="btn sec" data-s8="reload">بارگذاری دوباره</button>')};
+
+/* ---------- پاورقی و اعتبار سازنده ---------- */
+function foot(){var L=function(h,t){return '<a class="tb" href="#'+h+'">'+t+'</a>'};return '<footer class="ft"><p class="cr">'+CREDIT+'</p><p class="mut">سراج | SERAJ · نسخهٔ '+META.ver+' (آزمایشی آموزشی)</p><div class="ab" style="justify-content:center">'+L('about','درباره سراج')+L('sources','منابع و محتوا')+L('privacy','حریم خصوصی')+L('roadmap','توسعه‌های آینده')+'</div><div class="ab" style="justify-content:center"><a class="tb" dir="ltr" href="https://eitaa.com/'+META.eitaa+'"'+EX+'>@'+META.eitaa+'</a><a class="tb" dir="ltr" href="mailto:'+META.mail+'">'+META.mail+'</a></div></footer>'}
+function addTail(n,html){var o=pages[n];pages[n]=function(){var h=o.apply(this,arguments),i=h.lastIndexOf('</div>');return i<0?h+html:h.slice(0,i)+html+h.slice(i)}}
+addTail('home',foot());
+addTail('splash','<p class="cr" style="margin-top:14px">'+CREDIT+'</p>');
+addTail('welcome','<p class="cr" style="margin-top:10px">'+CREDIT+'</p><p class="mut">'+eitaaA+' · '+mailA+'</p><p class="mut"><a href="#about">درباره سراج</a></p>');
+
+/* ---------- درباره سراج ---------- */
+pages.about=function(){
+return pg('درباره سراج','prefs',
+'<div class="hero" style="text-align:center">'+logo()+'<h1>سراج | SERAJ</h1><p>چراغی برای شناخت قرآن و تاریخ اسلام</p><p>نسخهٔ '+META.ver+'<br>'+META.date+'</p></div>'+trialNote+
+card('معرفی کوتاه','<p class="body">سراج یک برنامهٔ آموزشی فارسی برای آشنایی منبع‌دار با قرآن کریم، پیامبران، چهارده معصوم (ع) و تاریخ اسلام است. «سراج» به معنی چراغ است و این واژه در قرآن هم آمده است (برای نمونه احزاب ۴۶). در سراج هر مطلب با منبع نام‌برده‌شده همراه است و جاهایی که میان مذاهب یا مورخان اختلاف هست، جدا از روایت اصلی نشان داده می‌شود.</p>')+
+card('هدف آموزشی، فرهنگی و دینی','<p class="body">هدف سراج آشنایی عمومی و منظم کاربر با متن و تاریخ دینی و تشویق او به مراجعه به منابع اصلی است. سراج جایگزین مراجعه به عالمان، تفاسیر و کتاب‌های مرجع نیست و فتوا یا حکم شرعی نمی‌دهد.</p>')+
+card('امکانات فعال این نسخه',li([
+'<b>قرآن کریم:</b> متن عربی (Tanzil، رسم عثمانی) با دو ترجمهٔ فارسی (مکارم شیرازی و الهی قمشه‌ای)، جست‌وجوی سوره، جست‌وجوی موضوعی و متنی در ترجمه، نشانه‌گذاری، یادداشت شخصی و تاریخچهٔ مطالعه',
+'<b>پیامبران:</b> '+fa(PR.length)+' پیامبر، با آیه‌های مرتبط، پیام‌ها و منابع',
+'<b>چهارده معصوم (ع):</b> زندگی‌نامهٔ کوتاه '+fa(F.length)+' شخصیت، همراه با اختلاف روایت‌ها و منابع',
+'<b>تاریخ اسلام:</b> '+fa(EV.length)+' رویداد تفصیلی با خط زمان، فیلتر، نقشهٔ شماتیک و پرسش‌های آموزشی، به‌علاوهٔ '+fa(ERAS.length)+' دوره با '+fa(ALLEV.length)+' رویداد کوتاه',
+'<b>مسابقه و پیشرفت:</b> ۶ دسته در ۴ مرحله، آزمون اختصاصی، مأموریت روزانه، چالش هفتگی، امتیاز، سطح و نشان',
+'<b>تلاوت:</b> پخش تلاوت منشاوی (ترتیل) در صفحهٔ هر سوره؛ نیازمند اینترنت، و در اپ اندروید با امکان دانلود برای پخش آفلاین',
+'<b>همراه سراج:</b> جست‌وجوی مستند آفلاین در محتوای ثبت‌شدهٔ برنامه (بدون هوش مصنوعی)',
+'<b>تنظیمات:</b> حالت روشن/تاریک، اندازهٔ متن، راهنمای شروع و پاک‌سازی اطلاعات'
+]))+
+card('نقش هوش مصنوعی در آموزش','<p class="body">در این نسخه هیچ مدل هوش مصنوعی به سراج متصل نیست و برنامه چنین ادعایی ندارد. «همراه سراج» فقط از محتوای ثبت‌شدهٔ داخلی (با منبع) پاسخ می‌دهد و اگر مطلبی ثبت نشده باشد، صریحاً می‌گوید پاسخ مستند ندارد.</p><p class="body">اتصال به یک دستیار هوشمند از مسیر سرور واسط امن (بدون قرار دادن کلید API در برنامه)، با ارجاع به منبع و جداکردن دیدگاه‌ها '+REV+' است و هنوز اجرا نشده است. جزئیات در <a href="#roadmap">توسعه‌های آینده</a>.</p>')+
+card('شیوه استفاده',li(['از «خانه» مسیر یادگیری و آیهٔ روز را دنبال کنید.','در «قرآن» سوره را جست‌وجو و آیه‌ها را بخوانید؛ با «نشانه» و «یادداشت» آیه را ذخیره کنید.','در «تاریخ»، «پیامبران» و «۱۴ معصوم» مطالب را با منبع و اختلاف روایت‌ها مطالعه کنید.','در «مسابقه» آموخته‌ها را بسنجید و امتیاز و نشان بگیرید.','پیشرفت شما فقط روی همین دستگاه ذخیره می‌شود؛ از «تنظیمات» می‌توانید آن را پاک کنید.']))+
+card('مزایای آموزشی و فرهنگی',li(['متن‌های برنامه (قرآن، پیامبران، تاریخ، مسابقه) روی خود دستگاه‌اند و بدون اینترنت کار می‌کنند؛ فقط پخش تلاوت (مگر دانلودشده) و دریافت فونت‌ها به اینترنت نیاز دارد.','نمایش منبع و اختلاف روایت‌ها به‌جای بیان قطعی مطالب مورد اختلاف.','یادگیری گام‌به‌گام با مسیر یادگیری و مسابقه.','متن قرآن بدون دست‌کاری از Tanzil.net و با ذکر ترجمهٔ مشخص.']))+
+card('منابع و مراجع محتوایی','<p class="body">فهرست کامل منابع، مجوزها و وضعیت محتوا را ببینید.</p><a class="btn" href="#sources">منابع و درباره محتوا</a>')+
+card('اطلاعات سازنده','<div class="kv"><span>طراحی و توسعه</span><b>'+META.maker+'</b></div><div class="kv"><span>ایتا</span><b>'+eitaaA+'</b></div><div class="kv"><span>ایمیل</span><b>'+mailA+'</b></div><a class="btn sec" href="#maker">درباره سازنده</a>')+
+card('اطلاعات نسخه','<div class="kv"><span>نام</span><b>سراج | SERAJ</b></div><div class="kv"><span>نسخه</span><b dir="ltr">'+META.verEn+'</b></div><div class="kv"><span>وضعیت</span><b>نسخهٔ آزمایشی آموزشی</b></div><div class="kv"><span>فناوری</span><b>HTML/CSS/JavaScript</b></div><div class="kv"><span>ذخیره‌سازی</span><b>فقط روی همین دستگاه</b></div>')+
+'<p class="cr" style="text-align:center;margin-top:16px">'+CREDIT+'</p>')};
+
+/* ---------- درباره سازنده ---------- */
+pages.maker=function(){return pg('درباره سازنده','prefs','<div class="hero" style="text-align:center"><div class="ic" style="margin:0 auto 8px;width:64px;height:64px;border-radius:50%">'+ic('user')+'</div><h1>'+META.maker+'</h1><p>'+CREDIT+'</p></div>'+
+card('راه‌های ارتباط','<div class="kv"><span>شناسهٔ ایتا</span><b>'+eitaaA+'</b></div><div class="kv"><span>ایمیل</span><b>'+mailA+'</b></div><p class="mut" style="margin-top:8px">برای گزارش اشکال یا پیشنهاد، با ایمیل یا ایتا پیام بدهید.</p><a class="btn" href="mailto:'+META.mail+'?subject='+encodeURIComponent('گزارش دربارهٔ سراج')+'">ارسال ایمیل</a> <a class="btn sec" href="https://eitaa.com/'+META.eitaa+'"'+EX+'>باز کردن در ایتا</a>')+
+card('دربارهٔ پروژه','<p class="body">سراج پروژه‌ای آموزشی است که به‌تنهایی طراحی و توسعه داده شده است. در این نسخه تأییدیهٔ رسمی هیچ نهاد دینی یا سازمانی برای محتوا ثبت نشده است و برنامه چنین ادعایی ندارد.</p>'))};
+
+/* ---------- منابع و درباره محتوا ---------- */
+function uniqSrc(){var s={};function add(a){[].concat(a||[]).forEach(function(x){x=String(x).trim();if(x&&x.indexOf('قرآن کریم')!==0&&x.indexOf('قرآن (')!==0)s[x]=1})}
+F.forEach(function(f){add(f.src)});PR.forEach(function(p){add(p.rd)});EV.forEach(function(e){add(e.src)});ERAS.forEach(function(e){add(e[3])});return Object.keys(s).sort()}
+pages.sources=function(){var u=uniqSrc();
+return pg('منابع و درباره محتوا','prefs',trialNote+
+card('متن قرآن','<div class="kv"><span>متن عربی</span><b>Tanzil، رسم عثمانی ۱٫۱</b></div><div class="kv"><span>مجوز</span><b dir="ltr">CC BY 3.0</b></div><div class="kv"><span>دست‌کاری در متن</span><b>انجام نمی‌شود</b></div><p class="body">متن عربی از پروژهٔ Tanzil گرفته شده و بدون دست‌کاری در برنامه جاسازی است؛ فقط هنگام نمایش، «بسم‌الله»ِ چسبیده به آیهٔ نخست سوره‌ها جدا می‌شود. منبع: <a class="mk" dir="ltr" href="https://tanzil.net"'+EX+'>tanzil.net</a>. متن کامل اعلام حق‌نشر در صفحهٔ <a href="#data">منبع و مجوز دادهٔ قرآن</a> آمده است.</p>')+
+card('ترجمه‌های فارسی','<div class="kv"><span>ترجمهٔ ۱</span><b>ناصر مکارم شیرازی</b></div><div class="kv"><span>ترجمهٔ ۲</span><b>مهدی الهی قمشه‌ای</b></div><p class="body">هر دو ترجمه از Tanzil.net گرفته شده‌اند و در هر صفحه نام مترجم نمایش داده می‌شود. مجوز و شرایط استفاده از ترجمه‌ها تابع شرایط Tanzil.net و حق مترجمان است.</p>')+
+card('تلاوت','<p class="body">صوت تلاوت از سرویس‌های mp3quran.net و everyayah.com پخش می‌شود و متعلق به صاحبان آن‌هاست؛ حق‌نشر آن در سراج ادعا نمی‌شود.</p>')+
+card('شمارش آیه‌ها و تقسیم مکی/مدنی','<p class="body">شمار آیه‌ها بر پایهٔ شمارش رایج (۶٬۲۳۶ آیه) و با فهرست سوره‌های برنامه هم‌خوانی خودکار دارد. تقسیم مکی/مدنی بر پایهٔ فهرست رایج است و دربارهٔ برخی سوره‌ها اختلاف نظر وجود دارد.</p>')+
+card('پیامبران، چهارده معصوم و تاریخ','<p class="body">خلاصه‌ها را سراج به‌صورت آموزشی و با تکیه بر آیات و منابع نام‌برده‌شده نوشته است. تاریخ‌های مورد اختلاف با عبارت‌هایی مانند «حدود» یا «روایت مشهور» و با توضیح اختلاف ارائه می‌شوند. این متن‌ها خلاصهٔ آموزشی‌اند و سند تاریخی یا دینی قطعی نیستند.</p><p class="body"><b>وضعیت بازبینی:</b> '+tag('بازبینی کارشناسی نشده')+'</p>')+
+card('پرسش‌های مسابقه','<p class="body">بخشی از پرسش‌ها از داده‌های منبع‌دار خود برنامه (مانند شمار آیه‌ها و رویدادها) ساخته می‌شود و بخشی دستی است. پرسش‌های دستی در صفحهٔ پاسخ با برچسب «در انتظار بازبینی کارشناس» مشخص شده‌اند.</p>')+
+card('تفسیر','<p class="body">سراج هیچ تفسیری از خود ندارد و تفسیر نمی‌سازد. تفسیر فقط وقتی نمایش داده می‌شود که کاربر از منبع معتبر وارد کرده باشد، همراه با نام مفسر و منبع.</p>')+
+card('احادیث','<p class="body">در این نسخه پایگاه احادیث وجود ندارد '+FUT+' و حدیثی بدون سند و درجهٔ اعتبار نمایش داده نمی‌شود.</p>')+
+'<details class="card" style="margin-top:12px"><summary><b>کتاب‌ها و منابع نام‌برده‌شده در برنامه ('+fa(u.length)+')</b></summary><p class="mut">فقط نام منبع ثبت شده است؛ ارجاع دقیق به جلد و صفحه هنوز افزوده نشده است.</p>'+li(u)+'</details>'+
+card('گزارش اشکال محتوایی','<p class="body">اگر خطای محتوایی یا ارجاع نادرست دیدید، لطفاً به سازنده اطلاع دهید.</p><a class="btn" href="mailto:'+META.mail+'?subject='+encodeURIComponent('گزارش اشکال محتوایی سراج')+'">ارسال گزارش</a>'))};
+
+/* ---------- حریم خصوصی ---------- */
+pages.privacy=function(){return pg('حریم خصوصی','prefs',
+card('خلاصه','<p class="body"><b>سراج هیچ داده‌ٔ شخصی از شما جمع‌آوری یا ارسال نمی‌کند.</b> حساب کاربری، ثبت‌نام، سرور، تبلیغات و ابزار آمارگیری ندارد. همهٔ اطلاعات فقط در حافظهٔ همین برنامه روی همین دستگاه می‌ماند.</p>')+
+card('چه چیزی روی دستگاه ذخیره می‌شود',li(['امتیاز، سطح، نشان‌ها، پیشرفت مسابقه و نام بازیکنان محلی','آیه‌های نشانه‌گذاری‌شده، یادداشت‌های شخصی و تاریخچهٔ مطالعه','گفت‌وگوهای «همراه سراج» (تا ۴۰ پیام اخیر و تا ۱۰ گفت‌وگوی ذخیره‌شده)','تفسیرهایی که خودتان وارد کرده باشید','تنظیمات: حالت نمایش، اندازهٔ متن، ترجمه، و اینکه راهنما نمایش داده شده است']))+
+card('چه چیزی ذخیره یا ارسال نمی‌شود',li(['نام واقعی، شماره، ایمیل یا موقعیت مکانی','امتیاز، نشانه‌ها، یادداشت‌ها و گفت‌وگوهای شما به هیچ سرور فرستاده نمی‌شود','متن پرسش‌های شما به هیچ سرویس هوش مصنوعی ارسال نمی‌شود چون هوش مصنوعی متصل نیست']))+
+card('ارتباط‌های شبکه‌ای برنامه','<p class="body">برای پخش تلاوت، فایل صوتی از سرویس‌های mp3quran.net و everyayah.com دریافت می‌شود و فونت‌ها از Google Fonts؛ این سرویس‌ها مانند هر وب‌سایتی ممکن است نشانی اینترنتی (IP) دستگاه شما را ببینند. در اپ اندروید، برنامه گاهی برای اعلان نسخهٔ جدید از GitHub می‌پرسد. هیچ‌یک از اطلاعات شخصی شما در این درخواست‌ها فرستاده نمی‌شود.</p>')+
+card('همگام‌سازی','<p class="body">چون حساب کاربری و پایگاه داده مشترک وجود ندارد، اطلاعات میان دستگاه‌ها همگام نمی‌شود. با پاک‌کردن داده‌های برنامه یا حذف آن، اطلاعات شما از بین می‌رود و قابل بازیابی نیست. حساب کاربری و همگام‌سازی '+FUT+' هستند.</p>')+
+card('پیوندها و اشتراک‌گذاری','<p class="body">اگر روی شناسهٔ ایتا یا ایمیل سازنده بزنید، برنامهٔ ایتا، مرورگر یا ایمیل شما باز می‌شود و از آن لحظه تابع سیاست همان برنامه است. دکمهٔ «اشتراک» فقط با لمس شما متن آیه را کپی یا به برنامهٔ انتخابی شما می‌دهد.</p>')+
+card('پاک‌سازی اطلاعات','<p class="body">در هر زمان می‌توانید پیشرفت یا همهٔ اطلاعات خود را پاک کنید.</p><a class="btn" href="#prefs">رفتن به تنظیمات</a>')+
+card('محدودیت','<p class="body">اطلاعات در حافظهٔ ساده و رمزنگاری‌نشدهٔ برنامه نگه‌داری می‌شود. هرکس به دستگاه باز و ناقفل شما دسترسی داشته باشد، می‌تواند یادداشت‌ها و پیشرفت شما را ببیند. در یادداشت‌ها اطلاعات حساس ننویسید.</p>'))};
+
+/* ---------- توسعه‌های آینده ---------- */
+pages.roadmap=function(){var R=[
+['همراه سراج متصل به هوش مصنوعی','نیازمند سرور واسط امن (کلید API فقط در سرور)، محدودیت مصرف، مدیریت خطا و هزینه. تا آن زمان دستیار فقط جست‌وجوی مستند آفلاین است.',REV],
+['حساب کاربری و همگام‌سازی','نیازمند احراز هویت و پایگاه داده. در این نسخه همهٔ داده‌ها فقط روی دستگاه است.',FUT],
+['پایگاه احادیث مستند','نیازمند منبع معتبر، سند، درجهٔ اعتبار و مجوز استفاده.',FUT],
+['تفسیرهای کامل','نیازمند مجوز نشر تفسیرها. فعلاً کاربر می‌تواند تفسیر معتبر خود را وارد کند.',FUT],
+['بازبینی کارشناسی محتوا','بازبینی متن‌های آموزشی توسط متخصص و افزودن ارجاع دقیق جلد و صفحه.',FUT],
+['رقابت آنلاین و جدول رتبهٔ همگانی','نیازمند سرور و حساب کاربری. فعلاً جدول فقط میان بازیکنان همین دستگاه است.',FUT],
+['ترجمهٔ صوتی','نیازمند مجوز و فایل‌های صوتی. تلاوت عربی هم‌اکنون فعال است.',REV]];
+return pg('توسعه‌های آینده','prefs','<div class="note"><b>توجه:</b> موارد زیر هنوز پیاده‌سازی نشده‌اند و در سراج فعال نیستند. این فهرست فقط مسیر توسعه را نشان می‌دهد و تعهد زمانی ندارد.</div><div class="list">'+R.map(function(r){return '<div class="card"><h3>'+r[0]+' '+r[2]+'</h3><p>'+r[1]+'</p></div>'}).join('')+'</div>')};
+
+/* ---------- تنظیمات ---------- */
+pages.prefs=function(){var th=store.get('theme')||'auto',fs=store.get('fs')||'100%';var seg=function(k,o,cur){return '<div class="seg" data-k="'+k+'" role="group">'+o.map(function(x){return '<button data-v="'+x[0]+'" aria-pressed="'+(x[0]==cur)+'">'+x[1]+'</button>'}).join('')+'</div>'};
+var L=function(h,t,d){return '<a class="card row" href="#'+h+'"><div><h3>'+t+'</h3>'+(d?'<p>'+d+'</p>':'')+'</div></a>'};
+return pg('تنظیمات','profile','<h3 class="sec-t">حالت نمایش</h3>'+seg('theme',[['light','روشن'],['dark','تاریک'],['auto','خودکار']],th)+'<h3 class="sec-t">اندازهٔ متن</h3>'+seg('fs',[['90%','کوچک'],['100%','متوسط'],['115%','بزرگ']],fs)+
+'<h3 class="sec-t">راهنما</h3><div class="ab"><button class="btn sec" data-s8="tour">نمایش دوبارهٔ راهنمای شروع</button><a class="btn sec" href="#welcome">نمایش دوبارهٔ خوشامدگویی</a></div>'+
+'<h3 class="sec-t">وضعیت قابلیت‌ها</h3><div class="list"><div class="card"><h3>ذخیره‌سازی</h3><p>فقط روی همین دستگاه؛ همگام‌سازی ندارد.</p></div><div class="card"><h3>هوش مصنوعی '+REV+'</h3><p>در این نسخه متصل نیست. همراه سراج فقط جست‌وجوی مستند آفلاین است.</p></div><div class="card"><h3>حساب کاربری و پایگاه داده '+FUT+'</h3><p>در این نسخه وجود ندارد.</p></div>'+L('tafsir','تفسیر مستند',tfStat())+L('data','منبع و مجوز دادهٔ قرآن','')+'</div>'+
+'<h3 class="sec-t">دربارهٔ سراج</h3><div class="list">'+L('about','درباره سراج و اطلاعات نسخه','نسخهٔ '+META.ver+' (آزمایشی آموزشی)')+L('sources','منابع و درباره محتوا','')+L('privacy','حریم خصوصی','')+L('roadmap','توسعه‌های آینده','')+L('maker','درباره سازنده',META.maker)+'</div>'+
+'<h3 class="sec-t">پاک‌سازی اطلاعات</h3><div class="ab"><button class="btn sec" data-s8="reset">پاک‌کردن پیشرفت و امتیاز</button><button class="btn sec" data-s8="wipe">پاک‌کردن همهٔ اطلاعات من</button></div><p class="mut">«همهٔ اطلاعات» شامل نشانه‌ها، یادداشت‌ها، گفت‌وگوها، تفسیرهای واردشده و تنظیمات است و قابل بازیابی نیست.</p><p class="cr" style="text-align:center;margin-top:18px">'+CREDIT+'</p>')};
+par.about=par.sources=par.privacy=par.roadmap=par.maker='profile';
+
+/* ---------- حذف همهٔ گفت‌وگوهای ذخیره‌شده ---------- */
+var ohs=pages.hsaved;pages.hsaved=function(){var h=ohs.apply(this,arguments);return (ST.s7&&ST.s7.saved&&ST.s7.saved.length)?h.replace(/<\/div>$/,'<button class="btn sec" data-s8="dla">حذف همهٔ گفت‌وگوهای ذخیره‌شده</button></div>'):h};
+
+/* ---------- راهنمای شروع ---------- */
+var TOUR=[['به سراج خوش آمدید','«خانه» مسیر یادگیری، آیهٔ روز و چالش روزانه را نشان می‌دهد. نوار پایین، شما را میان بخش‌های اصلی می‌برد.'],['قرآن کریم','متن عربی با دو ترجمهٔ فارسی، جست‌وجوی سوره و موضوع، نشانه‌گذاری آیه و یادداشت شخصی.'],['پیامبران، ۱۴ معصوم و تاریخ','داستان پیامبران، زندگی‌نامهٔ چهارده معصوم و رویدادهای تاریخی را با منبع و اختلاف روایت‌ها بخوانید.'],['مسابقه و حریم خصوصی','آموخته‌ها را با مسابقه بسنجید. اطلاعات شخصی شما فقط روی همین دستگاه می‌ماند. این راهنما را هر وقت خواستید از «تنظیمات» دوباره ببینید.']];
+var tourI=0,tourOn=false;
+function tourDraw(){var o=$('#tour');if(!o)return;var t=TOUR[tourI],last=tourI===TOUR.length-1;o.innerHTML='<div class="tbox"><p class="mut">گام '+fa(tourI+1)+' از '+fa(TOUR.length)+'</p><h3 id="tt">'+t[0]+'</h3><p class="body">'+t[1]+'</p><div class="ab"><button class="btn" data-s8="tn">'+(last?'شروع':'بعدی')+'</button>'+(last?'':'<button class="btn sec" data-s8="tk">رد کردن</button>')+'</div></div>';var b=o.querySelector('[data-s8=tn]');if(b)b.focus()}
+function tourStart(){if(tourOn)return;tourOn=true;tourI=0;var o=document.createElement('div');o.id='tour';o.className='tour';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-labelledby','tt');document.body.appendChild(o);tourDraw()}
+function tourEnd(){store.set('tour','1');tourOn=false;var o=$('#tour');if(o)o.remove()}
+var oh=hooks.home;hooks.home=function(){if(oh)oh.apply(this,arguments);if(!store.get('tour')&&store.get('seen'))tourStart()};
+
+/* ---------- رویدادهای مشترک ---------- */
+document.addEventListener('click',function(e){var b=e.target.closest('[data-s8]');if(!b)return;var k=b.dataset.s8;
+if(k==='tour'){store.set('tour','');if(location.hash==='#home')route();else location.hash='#home'}
+else if(k==='tn'){if(tourI>=TOUR.length-1)tourEnd();else{tourI++;tourDraw()}}
+else if(k==='tk')tourEnd();
+else if(k==='reset'){if(confirm('امتیاز، پیشرفت مسابقه و فعالیت‌ها پاک شود؟ نشانه‌ها و یادداشت‌ها می‌مانند.')){resetProgress();toast('پیشرفت پاک شد.');route()}}
+else if(k==='wipe'){if(confirm('همهٔ اطلاعات شما در سراج برای همیشه پاک شود؟')){clearAll()}}
+else if(k==='dla'){if(confirm('همهٔ گفت‌وگوهای ذخیره‌شده حذف شود؟')){ST.s7.saved=[];save();toast('حذف شد.');route()}}
+else if(k==='reload')location.reload()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&tourOn)tourEnd()});
+
+/* ---------- وضعیت اینترنت و خطاهای غیرمنتظره ---------- */
+addEventListener('offline',function(){toast('اینترنت قطع است؛ متن‌های سراج کار می‌کنند، اما پخش تلاوت (مگر دانلودشده) به اینترنت نیاز دارد.')});
+addEventListener('online',function(){toast('اینترنت وصل شد.')});
+var lastErr=0;addEventListener('error',function(ev){if(Date.now()-lastErr>5000){lastErr=Date.now();toast('خطایی رخ داد؛ برنامه به کار خود ادامه می‌دهد.')}try{console.error(ev.error||ev.message)}catch(x){}});
+addEventListener('unhandledrejection',function(){if(Date.now()-lastErr>5000){lastErr=Date.now();toast('خطایی رخ داد؛ برنامه به کار خود ادامه می‌دهد.')}});
+
+/* ---------- دکمهٔ بازگشت اندروید (Capacitor) ---------- */
+var A=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.App;
+if(A&&A.addListener){A.addListener('backButton',function(){if(tourOn){tourEnd();return}var h=(location.hash||'#splash').slice(1).split('/')[0];if(h==='home'||h==='splash'||h==='welcome'||h===''){A.exitApp()}else if(history.length>1){history.back()}else{location.hash='#home'}})}
 })();
 
 addEventListener('hashchange',route);applyPrefs();initQ();route();
