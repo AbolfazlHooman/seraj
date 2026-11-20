@@ -2,8 +2,8 @@
    - خود برنامه: اول شبکه (برای دریافت نسخهٔ جدید)، در صورت قطعی یا کندی کش
    - فونت‌ها: کش با به‌روزرسانی پس‌زمینه
    - صوت تلاوت: هرگز کش نمی‌شود (حجیم است و به اینترنت نیاز دارد) */
-var V = 'seraj-v3';
-var CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+var V = 'seraj-v4';
+var CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './splash.webp'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(V).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
