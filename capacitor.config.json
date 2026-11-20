@@ -1,0 +1,8 @@
+{
+  "appId": "com.seraj.app",
+  "appName": "سراج",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
